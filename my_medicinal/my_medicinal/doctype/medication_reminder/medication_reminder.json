@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-16 03:30:02.233206",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "medication_schedule",
+  "patint",
+  "reminder_date",
+  "remindrt_time",
+  "status",
+  "snooz_until",
+  "reminder_sent_at",
+  "action_taken"
+ ],
+ "fields": [
+  {
+   "fieldname": "medication_schedule",
+   "fieldtype": "Link",
+   "label": "medication schedule",
+   "options": "Medication Schedule"
+  },
+  {
+   "fieldname": "patint",
+   "fieldtype": "Link",
+   "label": "patint",
+   "options": "patient"
+  },
+  {
+   "fieldname": "reminder_date",
+   "fieldtype": "Data",
+   "label": "reminder date"
+  },
+  {
+   "fieldname": "remindrt_time",
+   "fieldtype": "Time",
+   "label": "remindrt time"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "status",
+   "options": "pending\nsent\ntaken\nmissed\nsnoozed"
+  },
+  {
+   "fieldname": "snooz_until",
+   "fieldtype": "Datetime",
+   "label": "snooz until"
+  },
+  {
+   "fieldname": "reminder_sent_at",
+   "fieldtype": "Datetime",
+   "label": "reminder sent at"
+  },
+  {
+   "fieldname": "action_taken",
+   "fieldtype": "Datetime",
+   "label": "action taken"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-16 03:30:02.233206",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medication Reminder",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

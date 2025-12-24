@@ -1,0 +1,312 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MED-{patient_name}-{####}",
+ "creation": "2025-12-11 07:24:12.523772",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_information_section",
+  "schedule_id",
+  "patient",
+  "column_break_5tkkj",
+  "patient_name",
+  "medication_details_section",
+  "medication_name",
+  "scientific_name",
+  "medication_type",
+  "column_break_jumcc",
+  "dosage",
+  "frequency",
+  "duration",
+  "medication_times_section",
+  "times",
+  "stock_management_section",
+  "current_stock",
+  "stock_unit",
+  "column_break_xzj4b",
+  "daily_consumption",
+  "days_until_depletion",
+  "additional_information_section",
+  "instructions",
+  "side_effects",
+  "column_break_km6dy",
+  "color_code",
+  "image",
+  "status_section",
+  "is_active",
+  "start_date",
+  "column_break_sxktm",
+  "end_date",
+  "from_prescription",
+  "reorder_level",
+  "auto_reorder",
+  "last_refill_date",
+  "modified_at",
+  "created_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "patient id",
+   "options": "patient",
+   "reqd": 1
+  },
+  {
+   "description": "e.g., Metformin",
+   "fieldname": "scientific_name",
+   "fieldtype": "Data",
+   "label": "Scientific Name"
+  },
+  {
+   "description": "e.g., 500mg, 5ml",
+   "fieldname": "dosage",
+   "fieldtype": "Data",
+   "label": "Dosage",
+   "reqd": 1
+  },
+  {
+   "default": "Tablet",
+   "fieldname": "stock_unit",
+   "fieldtype": "Select",
+   "label": "Stock Unit",
+   "options": "Tablet\nCapsule\nml\nDose\nPiece",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  },
+  {
+   "bold": 1,
+   "description": "e.g., Glucophage 500mg",
+   "fieldname": "medication_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medication Name",
+   "reqd": 1
+  },
+  {
+   "default": "Once Daily",
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "Once Daily\nTwice Daily\nThree Times Daily\nFour Times Daily\nEvery Other Day\nWeekly\nAs Needed",
+   "reqd": 1
+  },
+  {
+   "description": "Auto-calculated: dosage \u00d7 frequency",
+   "fieldname": "daily_consumption",
+   "fieldtype": "Float",
+   "label": "Daily Consumption",
+   "read_only": 1
+  },
+  {
+   "description": "Auto-calculated: current_stock \u00f7 daily_consumption",
+   "fieldname": "days_until_depletion",
+   "fieldtype": "Int",
+   "label": "Days Until Depletion",
+   "read_only": 1
+  },
+  {
+   "default": "5",
+   "fieldname": "reorder_level",
+   "fieldtype": "Int",
+   "label": "reorder level"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_reorder",
+   "fieldtype": "Check",
+   "label": "Auto Reorder"
+  },
+  {
+   "description": "Leave blank for continuous medication",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "description": "Special instructions for taking this medication",
+   "fieldname": "instructions",
+   "fieldtype": "Text",
+   "label": "Instructions"
+  },
+  {
+   "default": "5",
+   "description": "Possible side effects to watch for",
+   "fieldname": "side_effects",
+   "fieldtype": "Small Text",
+   "label": "Side Effects"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Medication Image"
+  },
+  {
+   "description": "Color for visual identification in app",
+   "fieldname": "color_code",
+   "fieldtype": "Color",
+   "label": "color code"
+  },
+  {
+   "fieldname": "last_refill_date",
+   "fieldtype": "Date",
+   "label": "last refill date"
+  },
+  {
+   "description": "Add times when medication should be taken",
+   "fieldname": "times",
+   "fieldtype": "Table",
+   "label": "Times",
+   "options": "Medication Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "basic_information_section",
+   "fieldtype": "Section Break",
+   "label": "Basic Information"
+  },
+  {
+   "fieldname": "column_break_5tkkj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "medication_details_section",
+   "fieldtype": "Section Break",
+   "label": " Medication Details"
+  },
+  {
+   "default": "Tablet",
+   "fieldname": "medication_type",
+   "fieldtype": "Select",
+   "label": "Medication Type",
+   "options": "Tablet\nCapsule\nSyrup\nInjection\nCream\nDrops\nInhaler"
+  },
+  {
+   "fieldname": "column_break_jumcc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "e.g., 3 months, Continuous",
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "medication_times_section",
+   "fieldtype": "Section Break",
+   "label": "Medication Times"
+  },
+  {
+   "fieldname": "stock_management_section",
+   "fieldtype": "Section Break",
+   "label": "Stock Management"
+  },
+  {
+   "description": "Number of tablets/doses currently available",
+   "fieldname": "current_stock",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Current Stock",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xzj4b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "additional_information_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "column_break_km6dy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "column_break_sxktm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Link to original prescription",
+   "fieldname": "from_prescription",
+   "fieldtype": "Link",
+   "label": "From Prescription",
+   "options": "Medical Prescription"
+  },
+  {
+   "fieldname": "schedule_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "schedule id",
+   "unique": 1
+  },
+  {
+   "fieldname": "modified_at",
+   "fieldtype": "Datetime",
+   "label": "modified at"
+  },
+  {
+   "fieldname": "created_at",
+   "fieldtype": "Datetime",
+   "label": "created at"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-21 23:25:36.173974",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medication Schedule",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "medication_name"
+}

@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-11 07:36:45.157870",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "time",
+  "before_after_mea",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "notes"
+  },
+  {
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "time"
+  },
+  {
+   "fieldname": "before_after_mea",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "before after mea",
+   "options": "\n\u0628\u0639\u062f\n\u0645\u0639 \u0627\u0644\u0627\u0643\u0644"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-12-20 22:51:27.054998",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medication Time",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

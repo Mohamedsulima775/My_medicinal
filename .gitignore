@@ -1,7 +1,34 @@
-.DS_Store
+# Python
 *.pyc
-*.egg-info
+*.pyo
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Frappe
+*.log
+*.mariadb
 *.swp
-tags
-my_medicinal/docs/current
+*.swo
+*~
+.DS_Store
 node_modules/
+public/files/
+
+# Environment
+.env
+*.conf
+sites/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

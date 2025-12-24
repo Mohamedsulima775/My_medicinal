@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-16 04:07:21.797169",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "api_key",
+  "api_secret",
+  "device_id",
+  "device_type",
+  "fcm_token",
+  "last_used",
+  "is_active",
+  "expires_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "user",
+   "options": "User"
+  },
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Data",
+   "label": "api key",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_secret",
+   "fieldtype": "Password",
+   "label": "api secret"
+  },
+  {
+   "fieldname": "device_id",
+   "fieldtype": "Data",
+   "label": "device id"
+  },
+  {
+   "fieldname": "device_type",
+   "fieldtype": "Select",
+   "label": "device type",
+   "options": "iso\nandroid\nweb"
+  },
+  {
+   "fieldname": "fcm_token",
+   "fieldtype": "Data",
+   "label": "fcm token"
+  },
+  {
+   "fieldname": "last_used",
+   "fieldtype": "Datetime",
+   "label": "last used"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "is active"
+  },
+  {
+   "fieldname": "expires_at",
+   "fieldtype": "Datetime",
+   "label": "expires at"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-16 04:07:21.797169",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "API Key",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

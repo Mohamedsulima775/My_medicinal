@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-16 03:57:13.765317",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "report_id",
+  "patint",
+  "report_period",
+  "start_date",
+  "end_date",
+  "total_doses_scheduled",
+  "doses_taken",
+  "doses_missed",
+  "doses_skipped",
+  "adherence_percentage",
+  "consecutive_days",
+  "generated_at",
+  "medications_detail"
+ ],
+ "fields": [
+  {
+   "fieldname": "patint",
+   "fieldtype": "Link",
+   "label": "patint id",
+   "options": "patient"
+  },
+  {
+   "fieldname": "report_period",
+   "fieldtype": "Select",
+   "label": "report period",
+   "options": "weekly\nmonthly\nquarterly"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "start date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "end date"
+  },
+  {
+   "fieldname": "total_doses_scheduled",
+   "fieldtype": "Int",
+   "label": "total doses scheduled"
+  },
+  {
+   "fieldname": "doses_taken",
+   "fieldtype": "Int",
+   "label": "doses taken"
+  },
+  {
+   "fieldname": "doses_missed",
+   "fieldtype": "Int",
+   "label": "doses missed"
+  },
+  {
+   "fieldname": "doses_skipped",
+   "fieldtype": "Int",
+   "label": "doses skipped"
+  },
+  {
+   "fieldname": "adherence_percentage",
+   "fieldtype": "Float",
+   "label": "adherence percentage"
+  },
+  {
+   "fieldname": "consecutive_days",
+   "fieldtype": "Int",
+   "label": "consecutive days"
+  },
+  {
+   "fieldname": "generated_at",
+   "fieldtype": "Datetime",
+   "label": "generated at"
+  },
+  {
+   "fieldname": "medications_detail",
+   "fieldtype": "Data",
+   "label": "medications detail"
+  },
+  {
+   "fieldname": "report_id",
+   "fieldtype": "Data",
+   "label": "report id"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-21 23:32:08.040796",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Adherence Report",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

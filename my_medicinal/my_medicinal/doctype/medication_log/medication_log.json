@@ -1,0 +1,216 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:LOG-{patient_name}-{####}",
+ "creation": "2025-12-16 00:37:04.631421",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_information_section",
+  "patient",
+  "patient_name",
+  "column_break_crhvq",
+  "medication_schedule",
+  "medication_name",
+  "time_information_section",
+  "scheduled_date",
+  "scheduled_time",
+  "column_break_wy3fk",
+  "actual_time_taken",
+  "time_difference",
+  "status_section",
+  "status",
+  "column_break_bkjai",
+  "was_on_time",
+  "additional_information_section",
+  "dosage_taken",
+  "skip_reason",
+  "notes",
+  "logged_by",
+  "reminder_sent",
+  "snooze_count"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "patient",
+   "options": "patient",
+   "reqd": 1
+  },
+  {
+   "default": "Scheduled",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Scheduled\nTaken\nMissed\nSkipped\nReminder Sent",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.status == 'Skipped'",
+   "fieldname": "skip_reason",
+   "fieldtype": "Select",
+   "label": "Skip Reason",
+   "options": "Forgot\nSide Effects\nTraveling\nOut of Stock\nFeeling Batter\nOther"
+  },
+  {
+   "description": "any additional notes",
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  },
+  {
+   "description": "who recorded this log (patient or caregiver",
+   "fieldname": "logged_by",
+   "fieldtype": "Link",
+   "label": "Logged By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "basic_information_section",
+   "fieldtype": "Section Break",
+   "label": "Basic Information"
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "medication_schedule",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Medication Schedule",
+   "options": "Medication Schedule",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_crhvq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "medication_schedule.medication_name",
+   "fieldname": "medication_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medication Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_information_section",
+   "fieldtype": "Section Break",
+   "label": "Time Information"
+  },
+  {
+   "description": "when the medication was supposed to be taken",
+   "fieldname": "scheduled_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Scheduled Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_wy3fk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "difference between scheduled and actual time",
+   "fieldname": "time_difference",
+   "fieldtype": "Int",
+   "label": "Time Difference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "column_break_bkjai",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "auto calcolated: taken within 30 minutes of scheduled time",
+   "fieldname": "was_on_time",
+   "fieldtype": "Check",
+   "label": "Was On Time",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "additional_information_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "scheduled_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Scheduled Date",
+   "reqd": 1
+  },
+  {
+   "description": "when the medication was actually taken",
+   "fieldname": "actual_time_taken",
+   "fieldtype": "Datetime",
+   "label": "Actual Time Taken"
+  },
+  {
+   "description": "How many doses were actually taken",
+   "fieldname": "dosage_taken",
+   "fieldtype": "Data",
+   "label": "Dosage Taken"
+  },
+  {
+   "default": "0",
+   "fieldname": "reminder_sent",
+   "fieldtype": "Check",
+   "label": "Reminder Sent"
+  },
+  {
+   "default": "0",
+   "description": "Number of times patient snoozed this reminder",
+   "fieldname": "snooze_count",
+   "fieldtype": "Int",
+   "label": "Snooze Count"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-24 23:13:25.673760",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medication Log",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "scheduled_time",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "medication_name"
+}

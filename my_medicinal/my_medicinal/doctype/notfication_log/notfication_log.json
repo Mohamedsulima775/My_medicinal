@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-16 03:43:26.179479",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "notfication_type",
+  "title",
+  "message",
+  "related_doctype",
+  "related_documint",
+  "priority",
+  "is_read",
+  "read_at",
+  "sent_via",
+  "sent_at",
+  "fcm_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "notfication_type",
+   "fieldtype": "Select",
+   "label": "notfication type"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "title"
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Text",
+   "label": "message"
+  },
+  {
+   "fieldname": "related_doctype",
+   "fieldtype": "Data",
+   "label": "related doctype"
+  },
+  {
+   "fieldname": "related_documint",
+   "fieldtype": "Data",
+   "label": "related documint"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "priority",
+   "options": "low\nmedium\nhigh"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_read",
+   "fieldtype": "Check",
+   "label": "is read"
+  },
+  {
+   "fieldname": "read_at",
+   "fieldtype": "Datetime",
+   "label": "read at"
+  },
+  {
+   "fieldname": "sent_via",
+   "fieldtype": "Select",
+   "label": "sent via",
+   "options": "push\nsms\nemail"
+  },
+  {
+   "fieldname": "sent_at",
+   "fieldtype": "Datetime",
+   "label": "sent at"
+  },
+  {
+   "fieldname": "fcm_token",
+   "fieldtype": "Data",
+   "label": "fcm token"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-16 03:43:26.179479",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Notfication Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

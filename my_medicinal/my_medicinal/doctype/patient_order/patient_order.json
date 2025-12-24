@@ -1,0 +1,153 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-21 23:55:28.096973",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "order_id",
+  "patient_id",
+  "prescription_id",
+  "delivery_address",
+  "delivery_city",
+  "delivery_phone",
+  "delivery_date",
+  "delivery_time_slot",
+  "paymesnt_method",
+  "order_surce",
+  "total_amont",
+  "courier_name",
+  "courier_phone",
+  "tracking_number",
+  "delivery_notes",
+  "status",
+  "order_rating",
+  "created_at",
+  "modified_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "order_id",
+   "fieldtype": "Data",
+   "label": "Order id"
+  },
+  {
+   "fieldname": "patient_id",
+   "fieldtype": "Link",
+   "label": "Patient id",
+   "options": "patient"
+  },
+  {
+   "fieldname": "prescription_id",
+   "fieldtype": "Link",
+   "label": "Prescription Id",
+   "options": "Medical Prescription"
+  },
+  {
+   "fieldname": "delivery_address",
+   "fieldtype": "Text",
+   "label": "Delivery Address"
+  },
+  {
+   "fieldname": "delivery_city",
+   "fieldtype": "Data",
+   "label": "Delivery City"
+  },
+  {
+   "fieldname": "delivery_phone",
+   "fieldtype": "Data",
+   "label": "Delivery phone"
+  },
+  {
+   "fieldname": "delivery_date",
+   "fieldtype": "Date",
+   "label": "Delivery date"
+  },
+  {
+   "fieldname": "delivery_time_slot",
+   "fieldtype": "Data",
+   "label": "Delivery Time Slot"
+  },
+  {
+   "fieldname": "paymesnt_method",
+   "fieldtype": "Data",
+   "label": "Paymesnt method"
+  },
+  {
+   "fieldname": "order_surce",
+   "fieldtype": "Data",
+   "label": "Order Surce"
+  },
+  {
+   "fieldname": "total_amont",
+   "fieldtype": "Float",
+   "label": "Total amont"
+  },
+  {
+   "fieldname": "courier_name",
+   "fieldtype": "Data",
+   "label": "courier name"
+  },
+  {
+   "fieldname": "courier_phone",
+   "fieldtype": "Data",
+   "label": "courier phone"
+  },
+  {
+   "fieldname": "tracking_number",
+   "fieldtype": "Data",
+   "label": "tracking number"
+  },
+  {
+   "fieldname": "delivery_notes",
+   "fieldtype": "Text",
+   "label": "Delivery notes"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "status"
+  },
+  {
+   "fieldname": "order_rating",
+   "fieldtype": "Int",
+   "label": "order rating"
+  },
+  {
+   "fieldname": "created_at",
+   "fieldtype": "Data",
+   "label": "created at"
+  },
+  {
+   "fieldname": "modified_at",
+   "fieldtype": "Data",
+   "label": "modified at"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-21 23:55:28.096973",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Patient Order",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

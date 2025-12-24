@@ -1,0 +1,213 @@
+{
+ "actions": [],
+ "autoname": "format:PREFIX-{####}",
+ "creation": "2025-12-15 22:20:18.767721",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "consultation_details_section",
+  "consultation_id",
+  "patient",
+  "patient_name",
+  "column_break_gohu7",
+  "healthcare_provider",
+  "provider_name",
+  "consultation_type_section",
+  "consultation_type",
+  "consultation_date",
+  "column_break_4qowu",
+  "status",
+  "priority",
+  "messages_section",
+  "messages",
+  "payment_section",
+  "consultation_fee",
+  "payment_status",
+  "column_break_tae1u",
+  "payment_date",
+  "payment_method",
+  "additional_notes_section",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "label": "Patient",
+   "options": "patient",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nScheduled\nIn Progress\nCompleted\nCancelled",
+   "reqd": 1
+  },
+  {
+   "default": "Normal",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Normal\nLow\nHigh\nUrgent",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "healthcare_provider",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Healthcare Provider",
+   "options": "Healthcare Provider",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "healthcare_provider.provider_name",
+   "fieldname": "provider_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Provider Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "messages",
+   "fieldtype": "Table",
+   "label": "Messages",
+   "options": "Consultation Message"
+  },
+  {
+   "fieldname": "consultation_details_section",
+   "fieldtype": "Section Break",
+   "label": "Consultation Details"
+  },
+  {
+   "fieldname": "column_break_gohu7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consultation_type_section",
+   "fieldtype": "Section Break",
+   "label": "Consultation Type"
+  },
+  {
+   "fieldname": "consultation_type",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Consultation Type",
+   "options": "Chat\nVideo Call\nVoice Call\nin-person",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "consultation_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Consultation Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_4qowu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "messages_section",
+   "fieldtype": "Section Break",
+   "label": "Messages"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "payment_section",
+   "fieldtype": "Section Break",
+   "label": "Payment"
+  },
+  {
+   "fetch_from": "healthcare_provider.consultation_fee",
+   "fieldname": "consultation_fee",
+   "fieldtype": "Currency",
+   "label": "Consultation Fee",
+   "read_only": 1
+  },
+  {
+   "default": "Unpaid",
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "Unpaid\nPaid\nRefunded"
+  },
+  {
+   "fieldname": "column_break_tae1u",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_date",
+   "fieldtype": "Date",
+   "label": "Payment Date"
+  },
+  {
+   "fieldname": "payment_method",
+   "fieldtype": "Select",
+   "label": "Payment Method",
+   "options": "Cash\nCredit Card\nMobile Payment\nDebit Card\nBank Transfer"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "additional_notes_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "in_list_view": 1,
+   "label": "Notes"
+  },
+  {
+   "fieldname": "consultation_id",
+   "fieldtype": "Data",
+   "label": "consultation_id"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-19 22:57:35.172393",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medical Consultation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "consultation_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1
+}

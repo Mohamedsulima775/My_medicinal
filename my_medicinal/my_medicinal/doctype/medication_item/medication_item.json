@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-16 01:47:58.306209",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "medication_id",
+  "item_name",
+  "item_code",
+  "scientific_name",
+  "medication_category",
+  "requires_prescription",
+  "active_ingredient",
+  "strength",
+  "dosage_form",
+  "manufacturer",
+  "storage_conditions",
+  "side_effects",
+  "contraindications",
+  "drug_interactions",
+  "pregnancy_category",
+  "controlled_substance",
+  "standard_rate",
+  "item_image",
+  "stoc_quntity",
+  "is_activ",
+  "created_at",
+  "modified_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "scientific_name",
+   "fieldtype": "Data",
+   "label": "Scientific Name"
+  },
+  {
+   "fieldname": "medication_category",
+   "fieldtype": "Link",
+   "label": "Medication category",
+   "options": "Medication Category"
+  },
+  {
+   "fieldname": "active_ingredient",
+   "fieldtype": "Data",
+   "label": "Active Ingredient"
+  },
+  {
+   "fetch_from": "item_code.strength",
+   "fieldname": "strength",
+   "fieldtype": "Data",
+   "label": "Strength"
+  },
+  {
+   "fetch_from": "item_code.dosage_form",
+   "fieldname": "dosage_form",
+   "fieldtype": "Select",
+   "label": "Dosage Form"
+  },
+  {
+   "fetch_from": "medication_id.manufacturer",
+   "fieldname": "manufacturer",
+   "fieldtype": "Data",
+   "label": "Manufacturer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "storage_conditions",
+   "fieldtype": "Small Text",
+   "label": "Storage Conditions"
+  },
+  {
+   "fetch_from": "item_code.side_effects",
+   "fieldname": "side_effects",
+   "fieldtype": "Text",
+   "label": "Side Effects"
+  },
+  {
+   "fieldname": "contraindications",
+   "fieldtype": "Text",
+   "label": "Contraindications"
+  },
+  {
+   "fieldname": "drug_interactions",
+   "fieldtype": "Text",
+   "label": "Drug Interactions"
+  },
+  {
+   "fieldname": "pregnancy_category",
+   "fieldtype": "Select",
+   "label": "Pregnancy Category"
+  },
+  {
+   "default": "0",
+   "fieldname": "controlled_substance",
+   "fieldtype": "Check",
+   "label": "Controlled Substance"
+  },
+  {
+   "fetch_from": "medication_id.item_code",
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_prescription",
+   "fieldtype": "Check",
+   "label": "Requires Prescription"
+  },
+  {
+   "fieldname": "standard_rate",
+   "fieldtype": "Data",
+   "label": "Standard rate"
+  },
+  {
+   "fetch_from": "medication_id.image",
+   "fieldname": "item_image",
+   "fieldtype": "Attach Image",
+   "label": "Item image"
+  },
+  {
+   "fieldname": "stoc_quntity",
+   "fieldtype": "Data",
+   "label": "Stoc Quntity"
+  },
+  {
+   "default": "0",
+   "fetch_from": "medication_id.item_code",
+   "fieldname": "is_activ",
+   "fieldtype": "Check",
+   "label": "Is Activ"
+  },
+  {
+   "fieldname": "created_at",
+   "fieldtype": "Datetime",
+   "label": "Created at"
+  },
+  {
+   "fieldname": "modified_at",
+   "fieldtype": "Datetime",
+   "label": "Modified at"
+  },
+  {
+   "fieldname": "medication_id",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Medication id",
+   "options": "Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-22 00:30:58.724944",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medication Item",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

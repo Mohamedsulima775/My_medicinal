@@ -1,0 +1,303 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PAT-{#####}",
+ "creation": "2025-11-28 01:24:34.208694",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "patient_id",
+  "patient_name",
+  "column_break_i9yts",
+  "status",
+  "contact_section",
+  "mobile",
+  "email",
+  "column_break_up0fi",
+  "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0634\u062e\u0635\u064a\u0629_section",
+  "date_of_birth",
+  "age",
+  "gender",
+  "column_break_77apv",
+  "blood_group",
+  "national_id",
+  "\u0627\u0644\u0639\u0646\u0648\u0627\u0646_section",
+  "city",
+  "address",
+  "\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0637\u0648\u0627\u0631\u0626_section",
+  "emergency_contact_name",
+  "column_break_balqp",
+  "emergency_contact_mobile",
+  "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0637\u0628\u064a\u0629_section",
+  "chronic_condition",
+  "allergy",
+  "column_break_e9cvt",
+  "fcm_active",
+  "system_section",
+  "user",
+  "column_break_kki0p",
+  "caregiver_user",
+  "image_section",
+  "profile_image",
+  "registration_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Male\nFemale"
+  },
+  {
+   "fieldname": "patient_id",
+   "fieldtype": "Data",
+   "label": "patient id"
+  },
+  {
+   "fieldname": "national_id",
+   "fieldtype": "Data",
+   "label": "national id"
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date Of Birth"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "unique": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "emergency_contact_name",
+   "fieldtype": "Data",
+   "label": "emergency contact name"
+  },
+  {
+   "description": "\u0645\u0644\u0627\u062d\u0638\u0627\u062a \u0637\u0628\u064a\u0629",
+   "fieldname": "fcm_active",
+   "fieldtype": "Text",
+   "label": "medical notes"
+  },
+  {
+   "fieldname": "chronic_condition",
+   "fieldtype": "Table",
+   "label": "chronic diseases",
+   "options": "Patient Chronic Disease"
+  },
+  {
+   "description": "\u0645\u062b\u0644 \u0627\u0644\u0641\u0648\u0644 \u0627\u0644\u0633\u0648\u062f\u0627\u0646\u064a \n\u0627\u0644\u0628\u0646\u0633\u0644\u064a\u0646",
+   "fieldname": "allergy",
+   "fieldtype": "Text",
+   "label": "Allergies",
+   "options": "Allergy"
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "blood_group",
+   "fieldtype": "Select",
+   "label": "Blood group",
+   "options": "o+\no-\nA+"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "city"
+  },
+  {
+   "fieldname": "emergency_contact_mobile",
+   "fieldtype": "Data",
+   "label": "emergency contact mobile",
+   "options": "phone"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "user",
+   "options": "User"
+  },
+  {
+   "fieldname": "profile_image",
+   "fieldtype": "Attach Image",
+   "label": "profile image"
+  },
+  {
+   "bold": 1,
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "status",
+   "options": "Active\nInactive\nSuuspended"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Mobile",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0623\u0633\u0627\u0633\u064a\u0629"
+  },
+  {
+   "fieldname": "column_break_i9yts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0627\u062a\u0635\u0627\u0644 "
+  },
+  {
+   "fieldname": "column_break_up0fi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0634\u062e\u0635\u064a\u0629_section",
+   "fieldtype": "Section Break",
+   "label": "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0634\u062e\u0635\u064a\u0629"
+  },
+  {
+   "fieldname": "column_break_77apv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "\u0627\u0644\u0639\u0646\u0648\u0627\u0646_section",
+   "fieldtype": "Section Break",
+   "label": "\u0627\u0644\u0639\u0646\u0648\u0627\u0646"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0637\u0648\u0627\u0631\u0626_section",
+   "fieldtype": "Section Break",
+   "label": "\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0637\u0648\u0627\u0631\u0626"
+  },
+  {
+   "fieldname": "column_break_balqp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0637\u0628\u064a\u0629_section",
+   "fieldtype": "Section Break",
+   "label": "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0637\u0628\u064a\u0629"
+  },
+  {
+   "fieldname": "column_break_e9cvt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_kki0p",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0645\u062a\u0627\u0628\u0639 \u0627\u0644\u0645\u0631\u064a\u0636 ",
+   "fieldname": "caregiver_user",
+   "fieldtype": "Link",
+   "label": "caregiver user",
+   "options": "User"
+  },
+  {
+   "fieldname": "image_section",
+   "fieldtype": "Section Break",
+   "label": "\u0627\u0644\u0635\u0648\u0631\u0629 \u0627\u0644\u0634\u062e\u0635\u064a\u0629"
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Age",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "system_section",
+   "fieldtype": "Section Break",
+   "label": "System"
+  },
+  {
+   "fieldname": "registration_date",
+   "fieldtype": "Date",
+   "label": "registration date"
+  }
+ ],
+ "icon": "profile_image",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-24 01:19:35.767280",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "patient",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "patient",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "search_fields": "patient_name,mobile,email",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}

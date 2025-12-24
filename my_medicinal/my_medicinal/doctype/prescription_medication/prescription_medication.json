@@ -1,0 +1,97 @@
+{
+ "_comments": "[]",
+ "_liked_by": "[]",
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-03 05:45:44.302240",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "medicine",
+  "scientfic_name",
+  "dosage",
+  "frequency",
+  "duration",
+  "quantity",
+  "instructions",
+  "is_filled",
+  "medication_schedule"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "medicine",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medication Nam",
+   "reqd": 1
+  },
+  {
+   "description": "e.g 500mg",
+   "fieldname": "dosage",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Dosage",
+   "reqd": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Frequency",
+   "options": "once Daily\nTwice Daily\nThree Times Daily\nFour Times Daily\nEvery Other Day\nWeekly\nAs Needed",
+   "reqd": 1
+  },
+  {
+   "description": "Total Quantity to be dispensed",
+   "fieldname": "quantity",
+   "fieldtype": "Int",
+   "label": "Quantity "
+  },
+  {
+   "fieldname": "instructions",
+   "fieldtype": "Small Text",
+   "label": "Instructions"
+  },
+  {
+   "description": "e.g 1 week, 3 months , continuous",
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Duration",
+   "reqd": 1
+  },
+  {
+   "fieldname": "scientfic_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Scientfic Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_filled",
+   "fieldtype": "Check",
+   "label": "Is Filled"
+  },
+  {
+   "fieldname": "medication_schedule",
+   "fieldtype": "Link",
+   "label": "Medication Schedule",
+   "options": "Medication Schedule",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-12-18 17:56:33.681679",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Prescription Medication",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,263 @@
+{
+ "_comments": "[]",
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PRESC-{patient_name}-{####}",
+ "creation": "2025-12-11 00:33:26.588701",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient_information_section",
+  "patient",
+  "patient_name",
+  "column_break_lj7gk",
+  "patient_mobile",
+  "patinent_age",
+  "healthcare_provider_information_section",
+  "healthcare_provider",
+  "provider_name",
+  "column_break_nrqem",
+  "specialty",
+  "license_number",
+  "prescription_details_section",
+  "prescription_date",
+  "valid_until",
+  "column_break_indkn",
+  "diagnosis",
+  "medications_section",
+  "medications",
+  "additional_information_section",
+  "instructions",
+  "column_break_0tifx",
+  "notes",
+  "follow_up_date",
+  "status_and_tracking_section",
+  "status",
+  "column_break_ffeis",
+  "total_medication",
+  "prescription_file",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Patient ",
+   "options": "patient",
+   "reqd": 1
+  },
+  {
+   "description": "Medical condition or reason for prescription",
+   "fieldname": "diagnosis",
+   "fieldtype": "Small Text",
+   "label": "Diagnosis"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "description": "Listof prescribed medications",
+   "fieldname": "medications",
+   "fieldtype": "Table",
+   "label": "Medications",
+   "options": "Prescription Medication",
+   "reqd": 1
+  },
+  {
+   "fieldname": "instructions",
+   "fieldtype": "Small Text",
+   "label": "Instructions"
+  },
+  {
+   "fieldname": "follow_up_date",
+   "fieldtype": "Attach",
+   "label": "Attachments"
+  },
+  {
+   "default": "Drafr",
+   "fetch_from": "patient.customer_name",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Drafr\nActiv\nFilled\nExpired\ncancelled",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "prescription_file",
+   "fieldtype": "Int",
+   "label": "Filled Medication",
+   "read_only": 1
+  },
+  {
+   "fieldname": "patient_information_section",
+   "fieldtype": "Section Break",
+   "label": "Patient Information"
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lj7gk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "patient.age",
+   "fieldname": "patinent_age",
+   "fieldtype": "Int",
+   "label": "Patient Age",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "patient.mobile",
+   "fieldname": "patient_mobile",
+   "fieldtype": "Data",
+   "label": "Patient Mobile",
+   "read_only": 1
+  },
+  {
+   "fieldname": "healthcare_provider_information_section",
+   "fieldtype": "Section Break",
+   "label": "Healthcare Provider Information"
+  },
+  {
+   "description": "Doctor or Healthcare Professional",
+   "fieldname": "healthcare_provider",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Healthcare Provider",
+   "options": "Healthcare Provider",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "healthcare_provider.full_name",
+   "fieldname": "provider_name",
+   "fieldtype": "Data",
+   "label": "Provider Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_nrqem",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fetch_from": "healthcare_provider.specialization",
+   "fieldname": "specialty",
+   "fieldtype": "Data",
+   "label": "Specialty",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "healthcare_provider.license_number",
+   "fieldname": "license_number",
+   "fieldtype": "Data",
+   "label": "License Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "prescription_details_section",
+   "fieldtype": "Section Break",
+   "label": "Prescription Details"
+  },
+  {
+   "default": "Today",
+   "fieldname": "prescription_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Prescription Date",
+   "reqd": 1
+  },
+  {
+   "description": "Prescription",
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "label": "Valid Until"
+  },
+  {
+   "fieldname": "column_break_indkn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "medications_section",
+   "fieldtype": "Section Break",
+   "label": "Medications"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "additional_information_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "column_break_0tifx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status_and_tracking_section",
+   "fieldtype": "Section Break",
+   "label": "Status and Tracking"
+  },
+  {
+   "fieldname": "column_break_ffeis",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_medication",
+   "fieldtype": "Int",
+   "label": "Total Medication",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Medical Prescription",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-12-18 18:01:21.401130",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "Medical Prescription",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "prescription_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1
+}

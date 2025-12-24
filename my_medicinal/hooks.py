@@ -7,11 +7,28 @@ app_description = "enhancing pharmaceutical care services"
 app_email = "mohamedsuliman923@gmail.com"
 app_license = "MIT"
 
+
+
+fixtures = ["Custom Field"]
+
+
+
+
+
+doctype_js = {
+    "medicineprofile": "public/js/medicine_profile.js",
+    "prescription": "public/js/prescription.js",
+    "patientmedication": "public/js/patient_medication.js",
+}
+
+
+
+
+
 # Includes in <head>
 # ------------------
-
 # include js, css files in header of desk.html
-# app_include_css = "/assets/my_medicinal/css/my_medicinal.css"
+#app_include_css = "/assets/my_medicinal/css/theme.css"
 # app_include_js = "/assets/my_medicinal/js/my_medicinal.js"
 
 # include js, css files in header of web template
@@ -112,7 +129,19 @@ app_license = "MIT"
 
 # Scheduled Tasks
 # ---------------
-
+#scheduler_events = {
+#	"hourly": [
+#		"my_medicinal.my_medicinal.doctype.medication_log.medication_log.auto_log_missed_doses"
+#	],
+#}
+scheduler_events = {
+    "all": [
+        "my_medicinal.tasks.all"
+    ],
+    "hourly": [
+        "my_medicinal.tasks.hourly"
+    ]
+}
 # scheduler_events = {
 #	"all": [
 #		"my_medicinal.tasks.all"
