@@ -32,3 +32,4 @@ sites/
 *.tmp
 *.bak
 *.swp
+firebase_credentials.json

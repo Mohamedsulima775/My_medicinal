@@ -129,36 +129,32 @@ doctype_js = {
 
 # Scheduled Tasks
 # ---------------
-#scheduler_events = {
-#	"hourly": [
-#		"my_medicinal.my_medicinal.doctype.medication_log.medication_log.auto_log_missed_doses"
-#	],
-#}
+# Scheduled Tasks
+# ---------------
+
 scheduler_events = {
-    "all": [
-        "my_medicinal.tasks.all"
-    ],
+    # Every 5 minutes - Medication Reminders
+    "cron": {
+        "*/5 * * * *": [
+            "my_medicinal.my_medicinal.tasks.send_medication_reminders"
+        ]
+    },
+    
+    # Hourly
     "hourly": [
-        "my_medicinal.tasks.hourly"
+        "my_medicinal.my_medicinal.tasks.hourly"
+    ],
+    
+    # Daily (midnight)
+    "daily": [
+        "my_medicinal.my_medicinal.tasks.all"
+    ],
+    
+    # Weekly (Sunday)
+    "weekly": [
+        "my_medicinal.my_medicinal.tasks.cleanup_old_notifications"
     ]
 }
-# scheduler_events = {
-#	"all": [
-#		"my_medicinal.tasks.all"
-#	],
-#	"daily": [
-#		"my_medicinal.tasks.daily"
-#	],
-#	"hourly": [
-#		"my_medicinal.tasks.hourly"
-#	],
-#	"weekly": [
-#		"my_medicinal.tasks.weekly"
-#	],
-#	"monthly": [
-#		"my_medicinal.tasks.monthly"
-#	],
-# }
 
 # Testing
 # -------
