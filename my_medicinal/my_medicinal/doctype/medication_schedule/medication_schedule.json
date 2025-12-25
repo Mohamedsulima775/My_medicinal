@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:MED-{patient_name}-{####}",
@@ -285,7 +284,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-21 23:25:36.173974",
+ "modified": "2025-12-25 05:17:38.730707",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "Medication Schedule",
