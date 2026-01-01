@@ -1,0 +1,472 @@
+/* ============================================================================
+   Dawaii Theme - Direct CSS (No SCSS Compilation Required)
+   ???? CSS ?????? - ?? ????? compile
+   ============================================================================ */
+
+/* ============================================================================
+   COLOR VARIABLES
+   ============================================================================ */
+:root {
+    /* Primary Colors */
+    --primary-color: #52796F !important;
+    --primary-light: #40916C !important;
+    --primary-dark: #1B4332 !important;
+    
+    /* Secondary Colors */
+    --secondary-color: #E85D75 !important;
+    --secondary-light: #FF6B88 !important;
+    
+    /* Status Colors */
+    --success-color: #52B788 !important;
+    --warning-color: #F4A261 !important;
+    --danger-color: #E76F51 !important;
+    --info-color: #4ECDC4 !important;
+    
+    /* Background Colors */
+    --bg-main: #F8F9F7 !important;
+    --bg-card: #FFFFFF !important;
+    --bg-soft: #EEF4F0 !important;
+    
+    /* Text Colors */
+    --text-primary: #1A1A1A !important;
+    --text-secondary: #6B7280 !important;
+    --text-light: #9CA3AF !important;
+}
+
+/* ============================================================================
+   NAVBAR - ?????? ??????
+   ============================================================================ */
+.navbar,
+.navbar-default {
+    background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%) !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 16px rgba(45, 106, 79, 0.2) !important;
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-nav .nav-link {
+    color: #FFFFFF !important;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+}
+
+/* ============================================================================
+   SIDEBAR - ??????? ????????
+   ============================================================================ */
+.layout-side-section,
+.desk-sidebar {
+    background: linear-gradient(180deg, #FFFFFF 0%, #EEF4F0 100%) !important;
+    border-right: 1px solid rgba(45, 106, 79, 0.1) !important;
+}
+
+.standard-sidebar-item {
+    border-radius: 12px !important;
+    margin: 4px 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.standard-sidebar-item:hover {
+    background-color: rgba(45, 106, 79, 0.08) !important;
+    transform: translateX(-2px) !important;
+}
+
+.standard-sidebar-item.selected,
+.sidebar-item.selected {
+    background-color: #2D6A4F !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25) !important;
+}
+
+/* ============================================================================
+   BUTTONS - ???????
+   ============================================================================ */
+.btn-primary,
+button.btn-primary {
+    background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover,
+button.btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(45, 106, 79, 0.35) !important;
+}
+
+.btn-success {
+    background-color: #52B788 !important;
+    border-radius: 12px !important;
+}
+
+.btn-warning {
+    background-color: #F4A261 !important;
+    border-radius: 12px !important;
+}
+
+.btn-danger {
+    background-color: #E76F51 !important;
+    border-radius: 12px !important;
+}
+
+.btn-secondary {
+    background-color: #E85D75 !important;
+    border-radius: 12px !important;
+    color: #FFFFFF !important;
+}
+
+/* ============================================================================
+   CARDS - ????????
+   ============================================================================ */
+.frappe-card,
+.widget,
+.card {
+    background-color: #FFFFFF !important;
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s ease !important;
+}
+
+.frappe-card:hover,
+.widget:hover,
+.card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-2px) !important;
+}
+
+.card-header,
+.widget-head {
+    background: linear-gradient(135deg, #EEF4F0 0%, #FFFFFF 100%) !important;
+    border-bottom: 2px solid rgba(45, 106, 79, 0.1) !important;
+    border-radius: 16px 16px 0 0 !important;
+    padding: 16px 20px !important;
+    font-weight: 600 !important;
+    color: #1A1A1A !important;
+}
+
+/* ============================================================================
+   FORM CONTROLS - ???? ???????
+   ============================================================================ */
+.form-control,
+input.form-control,
+textarea.form-control,
+select.form-control {
+    border-radius: 12px !important;
+    border: 1px solid rgba(45, 106, 79, 0.2) !important;
+    padding: 10px 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus,
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    border-color: #2D6A4F !important;
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1) !important;
+}
+
+/* ============================================================================
+   LIST VIEW - ??? ???????
+   ============================================================================ */
+.list-row {
+    border-radius: 12px !important;
+    margin-bottom: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.list-row:hover {
+    background-color: #EEF4F0 !important;
+    transform: translateX(4px) !important;
+}
+
+.list-row-container {
+    border: none !important;
+    background-color: #FFFFFF !important;
+}
+
+/* ============================================================================
+   INDICATORS - ????????
+   ============================================================================ */
+.indicator.green,
+.indicator-pill.green {
+    background-color: #52B788 !important;
+}
+
+.indicator.blue,
+.indicator-pill.blue {
+    background-color: #4ECDC4 !important;
+}
+
+.indicator.red,
+.indicator-pill.red {
+    background-color: #E76F51 !important;
+}
+
+.indicator.orange,
+.indicator-pill.orange {
+    background-color: #F4A261 !important;
+}
+
+/* ============================================================================
+   BADGES - ???????
+   ============================================================================ */
+.badge-primary {
+    background-color: #2D6A4F !important;
+    color: #FFFFFF !important;
+}
+
+.badge-success {
+    background-color: #52B788 !important;
+    color: #FFFFFF !important;
+}
+
+.badge-danger {
+    background-color: #E76F51 !important;
+    color: #FFFFFF !important;
+}
+
+.badge-warning {
+    background-color: #F4A261 !important;
+    color: #FFFFFF !important;
+}
+
+.badge-info {
+    background-color: #4ECDC4 !important;
+    color: #FFFFFF !important;
+}
+
+/* ============================================================================
+   MODAL - ??????? ????????
+   ============================================================================ */
+.modal-content {
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2) !important;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%) !important;
+    color: #FFFFFF !important;
+    border-radius: 16px 16px 0 0 !important;
+    padding: 20px 24px !important;
+}
+
+.modal-title {
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+}
+
+.modal-body {
+    padding: 24px !important;
+}
+
+/* ============================================================================
+   ALERTS - ?????????
+   ============================================================================ */
+.alert-success {
+    background-color: rgba(82, 183, 136, 0.1) !important;
+    color: #2D6A4F !important;
+    border-left: 4px solid #52B788 !important;
+    border-radius: 12px !important;
+}
+
+.alert-danger {
+    background-color: rgba(231, 111, 81, 0.1) !important;
+    color: #E76F51 !important;
+    border-left: 4px solid #E76F51 !important;
+    border-radius: 12px !important;
+}
+
+.alert-warning {
+    background-color: rgba(244, 162, 97, 0.1) !important;
+    color: #D68948 !important;
+    border-left: 4px solid #F4A261 !important;
+    border-radius: 12px !important;
+}
+
+.alert-info {
+    background-color: rgba(78, 205, 196, 0.1) !important;
+    color: #3BADA5 !important;
+    border-left: 4px solid #4ECDC4 !important;
+    border-radius: 12px !important;
+}
+
+/* ============================================================================
+   TABLES - ???????
+   ============================================================================ */
+.table thead {
+    background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%) !important;
+    color: #FFFFFF !important;
+}
+
+.table thead th {
+    font-weight: 600 !important;
+    border: none !important;
+    padding: 16px !important;
+    color: #FFFFFF !important;
+}
+
+.table tbody tr:hover {
+    background-color: #EEF4F0 !important;
+}
+
+.table tbody td {
+    padding: 14px 16px !important;
+    border-bottom: 1px solid rgba(45, 106, 79, 0.05) !important;
+}
+
+/* ============================================================================
+   PAGE HEADER - ??? ??????
+   ============================================================================ */
+.page-title {
+    color: #2D6A4F !important;
+    font-weight: 700 !important;
+    font-size: 1.8rem !important;
+}
+
+/* ============================================================================
+   TABS - ?????????
+   ============================================================================ */
+.nav-tabs {
+    border-bottom: 2px solid rgba(45, 106, 79, 0.1) !important;
+}
+
+.nav-tabs .nav-link {
+    border: none !important;
+    color: #6B7280 !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    border-radius: 12px 12px 0 0 !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: rgba(45, 106, 79, 0.05) !important;
+    color: #2D6A4F !important;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #2D6A4F !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 -2px 8px rgba(45, 106, 79, 0.2) !important;
+}
+
+/* ============================================================================
+   DROPDOWN - ??????? ????????
+   ============================================================================ */
+.dropdown-menu {
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+    padding: 8px !important;
+}
+
+.dropdown-item {
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(45, 106, 79, 0.08) !important;
+    color: #2D6A4F !important;
+}
+
+/* ============================================================================
+   PROGRESS BAR - ???? ??????
+   ============================================================================ */
+.progress {
+    border-radius: 12px !important;
+    height: 10px !important;
+    background-color: #EEF4F0 !important;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #2D6A4F 0%, #40916C 100%) !important;
+    border-radius: 12px !important;
+}
+
+/* ============================================================================
+   SHORTCUTS - ??????????
+   ============================================================================ */
+.shortcut-widget-box {
+    background-color: #FFFFFF !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(45, 106, 79, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.shortcut-widget-box:hover {
+    border-color: #2D6A4F !important;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* ============================================================================
+   CUSTOM COMPONENTS - ?????? ?????
+   ============================================================================ */
+
+/* Medication Card */
+.medication-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #EEF4F0 100%) !important;
+    border-radius: 16px !important;
+    border-left: 4px solid #2D6A4F !important;
+    padding: 20px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s ease !important;
+}
+
+.medication-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.15) !important;
+}
+
+/* ============================================================================
+   SCROLLBAR - ???? ???????
+   ============================================================================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #EEF4F0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2D6A4F;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1B4332;
+}
+
+/* ============================================================================
+   LOADING INDICATOR
+   ============================================================================ */
+.spinner-border,
+.loading-indicator {
+    color: #2D6A4F !important;
+    border-color: #2D6A4F !important;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+.footer {
+    background-color: #F8F9F7 !important;
+    border-top: 1px solid rgba(45, 106, 79, 0.1) !important;
+}
+
+/* ============================================================================
+   END OF DAWAII THEME
+   ============================================================================ */

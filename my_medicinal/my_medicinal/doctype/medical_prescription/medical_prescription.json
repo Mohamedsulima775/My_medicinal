@@ -1,6 +1,4 @@
 {
- "_comments": "[]",
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:PRESC-{patient_name}-{####}",
@@ -144,7 +142,7 @@
    "reqd": 1
   },
   {
-   "fetch_from": "healthcare_provider.full_name",
+   "fetch_from": "healthcare_provider.provider_name",
    "fieldname": "provider_name",
    "fieldtype": "Data",
    "label": "Provider Name",
@@ -156,7 +154,7 @@
   },
   {
    "default": "Today",
-   "fetch_from": "healthcare_provider.specialization",
+   "fetch_from": "healthcare_provider.specialty",
    "fieldname": "specialty",
    "fieldtype": "Data",
    "label": "Specialty",
@@ -235,7 +233,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-18 18:01:21.401130",
+ "modified": "2025-12-27 02:51:58.813463",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "Medical Prescription",

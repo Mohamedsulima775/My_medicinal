@@ -1,0 +1,656 @@
+// my_medicinal/public/scss/dawaii_theme.scss
+//Dawaii Theme - Medical Green & Warm Colors
+//Matches Flutter App Design
+
+//============================================================================
+//COLOR VARIABLES - ?????? ?? ????? Flutter
+//============================================================================
+
+//Primary Colors (Green Medical Theme)
+$primary: #2D6A4F !default;
+$primary-light: #40916C !default;
+$primary-dark: #1B4332 !default;
+
+//Secondary Colors (Warm Pink/Red)
+$secondary: #E85D75 !default;
+$secondary-light: #FF6B88 !default;
+
+//Status Colors
+$success: #52B788 !default;
+$warning: #F4A261 !default;
+$danger: #E76F51 !default;
+$info: #4ECDC4 !default;
+
+// Background Colors
+$bg-main: #F8F9F7 !default;
+$bg-card: #FFFFFF !default;
+$bg-soft: #EEF4F0 !default;
+
+//Text Colors
+$text-primary: #1A1A1A !default;
+$text-secondary: #6B7280 !default;
+$text-light: #9CA3AF !default;
+$text-white: #FFFFFF !default;
+
+//============================================================================
+//FRAPPE OVERRIDES
+//============================================================================
+
+// Sidebar
+.layout-side-section {
+    background-color: $bg-card !important;
+    border-right: 1px solid rgba($primary, 0.1);
+}
+
+.desk-sidebar {
+    background: linear-gradient(180deg, $bg-card 0%, $bg-soft 100%);
+}
+
+.standard-sidebar-item {
+    border-radius: 12px;
+    margin: 4px 8px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background-color: rgba($primary, 0.08);
+        transform: translateX(-2px);
+    }
+    
+    &.selected {
+        background-color: $primary;
+        color: $text-white;
+        box-shadow: 0 4px 12px rgba($primary, 0.25);
+    }
+}
+
+// Top Navbar
+.navbar {
+    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%) !important;
+    border-bottom: none;
+    box-shadow: 0 4px 16px rgba($primary, 0.2);
+}
+
+.navbar-brand {
+    color: $text-white !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.navbar-nav .nav-link {
+    color: rgba($text-white, 0.85) !important;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        color: $text-white !important;
+        background-color: rgba($text-white, 0.1);
+        border-radius: 8px;
+    }
+}
+
+// Search Bar
+.form-control {
+    border-radius: 12px;
+    border: 1px solid rgba($primary, 0.2);
+    padding: 10px 16px;
+    transition: all 0.3s ease;
+    
+    &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+}
+
+// Buttons
+.btn-primary {
+    background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba($primary, 0.25);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba($primary, 0.35);
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.btn-secondary {
+    background-color: $secondary;
+    border: none;
+    border-radius: 12px;
+    color: $text-white;
+    
+    &:hover {
+        background-color: $secondary-light;
+    }
+}
+
+.btn-success {
+    background-color: $success;
+    border-radius: 12px;
+}
+
+.btn-warning {
+    background-color: $warning;
+    border-radius: 12px;
+}
+
+.btn-danger {
+    background-color: $danger;
+    border-radius: 12px;
+}
+
+// Cards
+.frappe-card, .widget {
+    background-color: $bg-card;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+    }
+}
+
+.card-header {
+    background: linear-gradient(135deg, $bg-soft 0%, $bg-card 100%);
+    border-bottom: 2px solid rgba($primary, 0.1);
+    border-radius: 16px 16px 0 0;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: $text-primary;
+}
+
+// List View
+.list-row {
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background-color: $bg-soft;
+        transform: translateX(4px);
+    }
+}
+
+.list-row-container {
+    border: none;
+    background-color: $bg-card;
+}
+
+.indicator {
+    &.green {
+        background-color: $success;
+    }
+    
+    &.blue {
+        background-color: $info;
+    }
+    
+    &.red {
+        background-color: $danger;
+    }
+    
+    &.orange {
+        background-color: $warning;
+    }
+}
+
+// Form View
+.form-layout {
+    background-color: $bg-card;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.form-section {
+    margin-bottom: 32px;
+    
+    .section-head {
+        color: $primary;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid rgba($primary, 0.2);
+    }
+}
+
+.control-label {
+    color: $text-secondary;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+// Dashboard
+.widget-head {
+    color: $primary;
+    font-weight: 700;
+}
+
+.dashboard-widget-box {
+    background: linear-gradient(135deg, $bg-card 0%, $bg-soft 100%);
+    border-radius: 16px;
+    border: 1px solid rgba($primary, 0.1);
+}
+
+// Shortcuts
+.widget-group-control {
+    background-color: $bg-soft;
+    border-radius: 12px;
+    
+    .widget-group-body {
+        padding: 16px;
+    }
+}
+
+.shortcut-widget-box {
+    background-color: $bg-card;
+    border-radius: 12px;
+    border: 1px solid rgba($primary, 0.1);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        border-color: $primary;
+        box-shadow: 0 4px 12px rgba($primary, 0.15);
+        transform: translateY(-2px);
+    }
+}
+
+// Modal
+.modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+    color: $text-white;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 24px;
+    
+    .modal-title {
+        font-weight: 700;
+    }
+    
+    .close {
+        color: $text-white;
+        opacity: 0.8;
+        
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba($primary, 0.1);
+    padding: 16px 24px;
+}
+
+// Badges
+.badge {
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background-color: $primary;
+}
+
+.badge-success {
+    background-color: $success;
+}
+
+.badge-danger {
+    background-color: $danger;
+}
+
+.badge-warning {
+    background-color: $warning;
+}
+
+.badge-info {
+    background-color: $info;
+}
+
+// Alert
+.alert {
+    border-radius: 12px;
+    border: none;
+    padding: 16px 20px;
+    
+    &.alert-success {
+        background-color: rgba($success, 0.1);
+        color: darken($success, 20%);
+        border-left: 4px solid $success;
+    }
+    
+    &.alert-danger {
+        background-color: rgba($danger, 0.1);
+        color: darken($danger, 20%);
+        border-left: 4px solid $danger;
+    }
+    
+    &.alert-warning {
+        background-color: rgba($warning, 0.1);
+        color: darken($warning, 25%);
+        border-left: 4px solid $warning;
+    }
+    
+    &.alert-info {
+        background-color: rgba($info, 0.1);
+        color: darken($info, 20%);
+        border-left: 4px solid $info;
+    }
+}
+
+// Tables
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+    
+    thead {
+        background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+        color: $text-white;
+        
+        th {
+            font-weight: 600;
+            border: none;
+            padding: 16px;
+        }
+    }
+    
+    tbody {
+        tr {
+            transition: all 0.3s ease;
+            
+            &:hover {
+                background-color: $bg-soft;
+            }
+            
+            td {
+                padding: 14px 16px;
+                border-bottom: 1px solid rgba($primary, 0.05);
+            }
+        }
+    }
+}
+
+// Page Header
+.page-title {
+    color: $primary;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.page-head {
+    margin-bottom: 24px;
+    
+    .page-head-content {
+        padding: 20px 0;
+    }
+}
+
+// Dropdown
+.dropdown-menu {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 8px;
+    
+    .dropdown-item {
+        border-radius: 8px;
+        padding: 10px 16px;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            background-color: rgba($primary, 0.08);
+            color: $primary;
+        }
+    }
+}
+
+// Progress Bar
+.progress {
+    border-radius: 12px;
+    height: 10px;
+    background-color: $bg-soft;
+    
+    .progress-bar {
+        background: linear-gradient(90deg, $primary 0%, $primary-light 100%);
+        border-radius: 12px;
+    }
+}
+
+// Tabs
+.nav-tabs {
+    border-bottom: 2px solid rgba($primary, 0.1);
+    
+    .nav-link {
+        border: none;
+        color: $text-secondary;
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 12px 12px 0 0;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            background-color: rgba($primary, 0.05);
+            color: $primary;
+        }
+        
+        &.active {
+            background-color: $primary;
+            color: $text-white;
+            box-shadow: 0 -2px 8px rgba($primary, 0.2);
+        }
+    }
+}
+
+// Tooltips
+.tooltip {
+    .tooltip-inner {
+        background-color: $primary-dark;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.875rem;
+    }
+    
+    .arrow::before {
+        border-top-color: $primary-dark;
+    }
+}
+
+// Custom Medical Icons Colors
+.icon-medical {
+    color: $primary;
+}
+
+.icon-prescription {
+    color: $secondary;
+}
+
+.icon-success {
+    color: $success;
+}
+
+.icon-alert {
+    color: $warning;
+}
+
+// ============================================================================
+//CUSTOM COMPONENTS FOR DAWAII
+// ============================================================================
+
+// Medication Card
+.medication-card {
+    background: linear-gradient(135deg, $bg-card 0%, $bg-soft 100%);
+    border-radius: 16px;
+    border-left: 4px solid $primary;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba($primary, 0.15);
+    }
+    
+    .med-name {
+        color: $primary;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+    
+    .med-dosage {
+        color: $text-secondary;
+        font-size: 0.9rem;
+    }
+    
+    .stock-badge {
+        &.low {
+            background-color: $danger;
+            color: $text-white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        
+        &.normal {
+            background-color: $success;
+            color: $text-white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+// Adherence Chart
+.adherence-widget {
+    background: $bg-card;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    
+    .adherence-percentage {
+        font-size: 3rem;
+        font-weight: 700;
+        color: $primary;
+        text-align: center;
+        
+        &.high {
+            color: $success;
+        }
+        
+        &.medium {
+            color: $warning;
+        }
+        
+        &.low {
+            color: $danger;
+        }
+    }
+}
+
+// Consultation Badge
+.consultation-status {
+    padding: 6px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    
+    &.pending {
+        background-color: rgba($warning, 0.15);
+        color: darken($warning, 20%);
+    }
+    
+    &.completed {
+        background-color: rgba($success, 0.15);
+        color: darken($success, 20%);
+    }
+    
+    &.cancelled {
+        background-color: rgba($danger, 0.15);
+        color: darken($danger, 20%);
+    }
+}
+
+// Order Status
+.order-status {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    
+    &.pending {
+        background-color: rgba($info, 0.15);
+        color: darken($info, 20%);
+    }
+    
+    &.processing {
+        background-color: rgba($warning, 0.15);
+        color: darken($warning, 20%);
+    }
+    
+    &.shipped {
+        background-color: rgba($primary, 0.15);
+        color: $primary;
+    }
+    
+    &.delivered {
+        background-color: rgba($success, 0.15);
+        color: darken($success, 20%);
+    }
+}
+
+// ============================================================================
+//RESPONSIVE DESIGN
+//============================================================================
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .frappe-card {
+        margin-bottom: 16px;
+    }
+    
+    .form-layout {
+        padding: 16px;
+    }
+}
+
+// ============================================================================
+// DARK MODE SUPPORT (Optional)
+//============================================================================
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-main: #1A1A1A;
+        --bg-card: #2D2D2D;
+        --bg-soft: #242424;
+        --text-primary: #FFFFFF;
+        --text-secondary: #B0B0B0;
+    }
+}

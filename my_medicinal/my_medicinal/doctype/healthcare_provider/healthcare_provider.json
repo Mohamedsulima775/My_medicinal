@@ -1,95 +1,102 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-12-16 03:17:03.369276",
- "default_view": "List",
+ "autoname": "field:provider_name",
+ "creation": "2025-12-27 23:10:00.321865",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "provider_id",
-  "basic_information_section",
   "provider_name",
-  "specialization",
-  "license_number",
-  "profile_image",
-  "column_break_omwie",
-  "experience_years",
-  "education",
-  "contact_information_section",
-  "email",
-  "phone",
-  "column_break_byb9j",
-  "address",
-  "city",
-  "schedule_section",
-  "availablity_schedule",
-  "additional_information_section",
-  "bio",
-  "languages_spoken",
-  "column_break_zmwqi",
-  "consultation_fee",
-  "total_consultations",
-  "status",
   "user",
-  "is_available"
+  "column_break_5s97d",
+  "specialty",
+  "qualifications",
+  "professional_details_section",
+  "experience_years",
+  "column_break_iw2ke",
+  "consultation_fee",
+  "availability_section",
+  "is_available",
+  "availability_note",
+  "contact_information_section",
+  "mobile",
+  "column_break_pjsqq",
+  "email",
+  "schedule_section",
+  "schedule",
+  "license_number"
  ],
  "fields": [
   {
-   "fieldname": "specialization",
-   "fieldtype": "Select",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "label": "Specialization",
-   "options": "General\nPractice\nCardiology\nEndocrinology\nNeurology\nOrthopedics\nPediatrics\nOther",
-   "reqd": 1
-  },
-  {
-   "fieldname": "license_number",
+   "fetch_from": "user.full_name",
+   "fieldname": "provider_name",
    "fieldtype": "Data",
-   "label": "License number",
+   "in_list_view": 1,
+   "label": "Provider Name",
+   "reqd": 1,
    "unique": 1
   },
   {
-   "fieldname": "experience_years",
-   "fieldtype": "Int",
-   "label": "Years of Experience"
-  },
-  {
-   "fieldname": "bio",
-   "fieldtype": "Text Editor",
-   "label": "Bio"
-  },
-  {
-   "fieldname": "availablity_schedule",
-   "fieldtype": "Table",
-   "label": "Schedule",
-   "options": "Provider Schedule"
-  },
-  {
-   "default": "Active",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "in_filter": 1,
+   "fieldname": "user",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Status",
-   "options": "Active\nInactive\non leave",
-   "reqd": 1
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "unique": 1
   },
   {
-   "fieldname": "basic_information_section",
-   "fieldtype": "Section Break",
-   "label": "Basic Information"
-  },
-  {
-   "fieldname": "column_break_omwie",
+   "fieldname": "column_break_5s97d",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "education",
+   "fieldname": "specialty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Specialty"
+  },
+  {
+   "fieldname": "qualifications",
    "fieldtype": "Small Text",
-   "label": "Education"
+   "label": "Qualifications"
+  },
+  {
+   "fieldname": "professional_details_section",
+   "fieldtype": "Section Break",
+   "label": "Professional Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "experience_years",
+   "fieldtype": "Int",
+   "label": "Experience Years"
+  },
+  {
+   "fieldname": "column_break_iw2ke",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "consultation_fee",
+   "fieldtype": "Currency",
+   "label": "Consultation Fee"
+  },
+  {
+   "fieldname": "availability_section",
+   "fieldtype": "Section Break",
+   "label": "Availability"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_available",
+   "fieldtype": "Check",
+   "label": "Is Available"
+  },
+  {
+   "fieldname": "availability_note",
+   "fieldtype": "Small Text",
+   "label": "Availability Note"
   },
   {
    "fieldname": "contact_information_section",
@@ -97,103 +104,58 @@
    "label": "Contact Information"
   },
   {
+   "fetch_from": "user.phone",
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile"
+  },
+  {
+   "fieldname": "column_break_pjsqq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "user.email",
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email",
-   "options": "Email"
+   "label": "Email"
   },
   {
-   "fieldname": "phone",
+   "fieldname": "license_number",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Phone",
-   "options": "Phone"
+   "label": "License Number"
   },
   {
-   "fieldname": "column_break_byb9j",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "address",
-   "fieldtype": "Small Text",
-   "label": "Address"
-  },
-  {
-   "fieldname": "city",
-   "fieldtype": "Data",
-   "in_filter": 1,
-   "label": "City"
-  },
-  {
-   "collapsible": 1,
    "fieldname": "schedule_section",
    "fieldtype": "Section Break",
-   "label": "Schedule"
+   "label": "schedule"
   },
   {
-   "collapsible": 1,
-   "fieldname": "additional_information_section",
-   "fieldtype": "Section Break",
-   "label": "Additional Information"
-  },
-  {
-   "fieldname": "languages_spoken",
-   "fieldtype": "Small Text",
-   "label": "Languages Spoken"
-  },
-  {
-   "fieldname": "column_break_zmwqi",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "consultation_fee",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Consultation Fee"
-  },
-  {
-   "fieldname": "user",
-   "fieldtype": "Link",
-   "label": "User",
-   "options": "User"
-  },
-  {
-   "fieldname": "provider_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Provider Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "provider_id",
-   "fieldtype": "Data",
-   "label": "provider id"
-  },
-  {
-   "fieldname": "profile_image",
-   "fieldtype": "Attach Image",
-   "label": "Profile Image"
-  },
-  {
-   "fieldname": "total_consultations",
-   "fieldtype": "Int",
-   "label": "Total Consulations"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_available",
-   "fieldtype": "Check",
-   "label": "Is Available"
+   "fieldname": "schedule",
+   "fieldtype": "Table",
+   "label": "Schedule",
+   "options": "Provider Schedule"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-20 22:00:07.852617",
+ "modified": "2025-12-28 00:41:27.224906",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "Healthcare Provider",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Provider",
+   "share": 1,
+   "write": 1
+  },
   {
    "create": 1,
    "delete": 1,
@@ -210,6 +172,5 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "provider_name",
  "track_changes": 1
 }

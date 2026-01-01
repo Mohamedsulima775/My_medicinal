@@ -15,7 +15,8 @@
   "fcm_token",
   "last_used",
   "is_active",
-  "expires_at"
+  "expires_at",
+  "last_notification_at"
  ],
  "fields": [
   {
@@ -66,11 +67,17 @@
    "fieldname": "expires_at",
    "fieldtype": "Datetime",
    "label": "expires at"
+  },
+  {
+   "description": "Last time notification was sent to this device",
+   "fieldname": "last_notification_at",
+   "fieldtype": "Datetime",
+   "label": "Last Notification At"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-16 04:07:21.797169",
+ "modified": "2025-12-26 01:39:03.408069",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "API Key",

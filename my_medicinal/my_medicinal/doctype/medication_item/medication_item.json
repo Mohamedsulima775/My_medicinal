@@ -7,57 +7,77 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "basic_information_section",
   "medication_id",
   "item_name",
   "item_code",
+  "item_image",
+  "column_break_w7ejt",
   "scientific_name",
   "medication_category",
-  "requires_prescription",
+  "pharmaceutical_details_section",
   "active_ingredient",
   "strength",
   "dosage_form",
+  "column_break_5hnq7",
   "manufacturer",
-  "storage_conditions",
+  "requires_prescription",
+  "controlled_substance",
+  "medical_information_section",
   "side_effects",
   "contraindications",
+  "column_break_ufao2",
   "drug_interactions",
   "pregnancy_category",
-  "controlled_substance",
+  "storage_and_handling_section",
+  "storage_conditions",
+  "pricing_and_inventory_section",
   "standard_rate",
-  "item_image",
   "stoc_quntity",
-  "is_activ",
+  "column_break_dm4tr",
+  "reorder_level",
+  "metadata_section",
   "created_at",
-  "modified_at"
+  "column_break_aaldo",
+  "modified_at",
+  "is_activ"
  ],
  "fields": [
   {
+   "description": "Generic/Scientific name",
    "fieldname": "scientific_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Scientific Name"
   },
   {
    "fieldname": "medication_category",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Medication category",
    "options": "Medication Category"
   },
   {
+   "description": "Main therapeutic component",
    "fieldname": "active_ingredient",
    "fieldtype": "Data",
    "label": "Active Ingredient"
   },
   {
+   "description": "e.g., 500mg, 10mg/ml",
    "fetch_from": "item_code.strength",
    "fieldname": "strength",
    "fieldtype": "Data",
    "label": "Strength"
   },
   {
+   "default": "Tablet",
    "fetch_from": "item_code.dosage_form",
    "fieldname": "dosage_form",
    "fieldtype": "Select",
-   "label": "Dosage Form"
+   "label": "Dosage Form",
+   "options": "Tablet\nCapsule\nSyrup\nInjection\nCream\nOintment\nDrops\nInhaler\nPatch\nSuppository",
+   "reqd": 1
   },
   {
    "fetch_from": "medication_id.manufacturer",
@@ -67,22 +87,26 @@
    "read_only": 1
   },
   {
+   "description": "Temperature, humidity, light requirements",
    "fieldname": "storage_conditions",
    "fieldtype": "Small Text",
    "label": "Storage Conditions"
   },
   {
+   "description": "Common and serious side effects",
    "fetch_from": "item_code.side_effects",
    "fieldname": "side_effects",
    "fieldtype": "Text",
    "label": "Side Effects"
   },
   {
+   "description": "When NOT to use this medication",
    "fieldname": "contraindications",
    "fieldtype": "Text",
    "label": "Contraindications"
   },
   {
+   "description": "Interactions with other medications",
    "fieldname": "drug_interactions",
    "fieldtype": "Text",
    "label": "Drug Interactions"
@@ -90,7 +114,8 @@
   {
    "fieldname": "pregnancy_category",
    "fieldtype": "Select",
-   "label": "Pregnancy Category"
+   "label": "Pregnancy Category",
+   "options": "A - Safe\nB - Probably Safe\nC - Use with Caution\nD - Positive Evidence of Risk\nX - Contraindicated"
   },
   {
    "default": "0",
@@ -102,14 +127,16 @@
    "fetch_from": "medication_id.item_code",
    "fieldname": "item_code",
    "fieldtype": "Data",
-   "label": "Item Code"
+   "label": "Item Code",
+   "unique": 1
   },
   {
+   "bold": 1,
+   "description": "Commercial name of the medication",
    "fieldname": "item_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Item Name",
-   "read_only": 1
+   "label": "Item Name"
   },
   {
    "default": "0",
@@ -119,8 +146,8 @@
   },
   {
    "fieldname": "standard_rate",
-   "fieldtype": "Data",
-   "label": "Standard rate"
+   "fieldtype": "Currency",
+   "label": "Standard Price"
   },
   {
    "fetch_from": "medication_id.image",
@@ -129,8 +156,10 @@
    "label": "Item image"
   },
   {
+   "default": "0",
+   "description": "Current available stock",
    "fieldname": "stoc_quntity",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Stoc Quntity"
   },
   {
@@ -151,17 +180,79 @@
    "label": "Modified at"
   },
   {
+   "description": "Link to Item Master",
    "fieldname": "medication_id",
    "fieldtype": "Link",
    "in_filter": 1,
    "in_list_view": 1,
    "label": "Medication id",
-   "options": "Item"
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "basic_information_section",
+   "fieldtype": "Section Break",
+   "label": "Basic Information"
+  },
+  {
+   "fieldname": "column_break_w7ejt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pharmaceutical_details_section",
+   "fieldtype": "Section Break",
+   "label": "Pharmaceutical Details "
+  },
+  {
+   "fieldname": "column_break_5hnq7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "medical_information_section",
+   "fieldtype": "Section Break",
+   "label": "Medical Information"
+  },
+  {
+   "fieldname": "column_break_ufao2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "storage_and_handling_section",
+   "fieldtype": "Section Break",
+   "label": "Storage and Handling"
+  },
+  {
+   "fieldname": "pricing_and_inventory_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing and Inventory"
+  },
+  {
+   "fieldname": "column_break_dm4tr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "10",
+   "description": "Minimum stock before reorder",
+   "fieldname": "reorder_level",
+   "fieldtype": "Int",
+   "label": "Reorder Level"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "metadata_section",
+   "fieldtype": "Section Break",
+   "label": "Metadata"
+  },
+  {
+   "fieldname": "column_break_aaldo",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-22 00:30:58.724944",
+ "modified": "2025-12-28 01:35:33.030860",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "Medication Item",
