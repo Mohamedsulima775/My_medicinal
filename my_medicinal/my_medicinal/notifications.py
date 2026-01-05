@@ -8,6 +8,50 @@ import json
 import os
 
 # ============================================
+# NOTIFICATION CONFIGURATION (المطلوب من Frappe)
+# ============================================
+
+def get_notification_config():
+    """
+    Notification configuration for Frappe Desk.
+    This function is called by Frappe to get notification settings.
+    """
+    return {
+        "for_doctype": {
+            # Medical Consultation notifications
+            "Medical Consultation": {
+                "status": "Open",
+                "priority": ["High", "Urgent"]
+            },
+            
+            # Patient Order notifications
+            "Patient Order": {
+                "status": ["Pending", "Confirmed"],
+            },
+            
+            # Medication Reminder notifications
+            "Medication Reminder": {
+                "status": "Pending",
+            },
+            
+            # Notification Log
+            "Notification Log": {
+                "read": 0,
+            }
+        },
+        
+        # Module-wise notifications
+        "for_module": {
+            "my_medicinal": "green"
+        },
+        
+        # Open count for doctypes
+        "open_count_doctype": {
+            "Medical Consultation": "status",
+            "Patient Order": "status"
+        }
+    }
+# ============================================
 # FIREBASE CLOUD MESSAGING (FCM)
 # ============================================
 

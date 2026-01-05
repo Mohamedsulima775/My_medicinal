@@ -323,7 +323,7 @@ override_whitelisted_methods = {
 # NOTIFICATION CONFIG - ? ??????? ?????????
 # ============================================================================
 
-notification_config = "my_medicinal.notifications.get_notification_config"
+notification_config = "my_medicinal.my_medicinal.notifications.get_notification_config"
 
 # ============================================================================
 # EMAIL CONFIGURATION - ? ??????? ??????
