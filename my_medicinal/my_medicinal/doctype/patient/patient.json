@@ -1,5 +1,5 @@
 {
- "_comments": "[{\"comment\": \"Action Failed<br><br><pre><code>Traceback (most recent call last):\\n  File \\\"apps/frappe/frappe/dat...\", \"by\": \"Administrator\", \"name\": \"92d98109c6\"}, {\"comment\": \"Action Failed<br><br><pre><code>Traceback (most recent call last):\\n  File \\\"apps/frappe/frappe/dat...\", \"by\": \"Administrator\", \"name\": \"8946772c9e\"}]",
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:PAT-{#####}",
@@ -18,6 +18,7 @@
   "mobile",
   "email",
   "column_break_up0fi",
+  "password",
   "\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0634\u062e\u0635\u064a\u0629_section",
   "date_of_birth",
   "age",
@@ -55,6 +56,7 @@
   {
    "fieldname": "patient_id",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "patient id"
   },
   {
@@ -244,12 +246,17 @@
    "fieldname": "registration_date",
    "fieldtype": "Date",
    "label": "registration date"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password"
   }
  ],
  "icon": "profile_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-25 17:20:06.451116",
+ "modified": "2026-01-06 22:39:23.777542",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "patient",

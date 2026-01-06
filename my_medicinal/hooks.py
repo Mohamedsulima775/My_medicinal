@@ -199,69 +199,71 @@ website_context = {
 
 
 scheduler_events = {
-    # ?? 5 ????? - ????? ???????
-    "cron": {
+
+"cron": {
         "*/5 * * * *": [
-            "my_medicinal.tasks.send_medication_reminders"
+            "my_medicinal.my_medicinal.tasks.send_medication_reminders"  # ? ????
         ]
     },
     
-    # ?? ????
+    # Hourly
     "hourly": [
-        "my_medicinal.tasks.hourly",
-        "my_medicinal.tasks.check_low_stock"  # ? ????: ??? ???????
+        "my_medicinal.my_medicinal.tasks.hourly",  # ? ????
+        "my_medicinal.my_medicinal.tasks.check_low_stock"  # ? ????
     ],
     
-    # ?????? (????? ?????)
+    # Daily
     "daily": [
-        "my_medicinal.tasks.daily",
-        "my_medicinal.tasks.calculate_adherence_rates",  # ? ????: ???? ????????
-        "my_medicinal.tasks.send_daily_summary"  # ? ????: ???? ????
-    ],
-    "weekly": [
-        "my_medicinal.tasks.cleanup_old_notifications",
-        "my_medicinal.tasks.generate_weekly_reports"  # ? ????: ?????? ???????
+        "my_medicinal.my_medicinal.tasks.daily",  # ? ????
+        "my_medicinal.my_medicinal.tasks.calculate_adherence_rates",  # ? ????
+        "my_medicinal.my_medicinal.tasks.send_daily_summary"  # ? ????
     ],
     
-    # ?????? (??? ??? ?? ?????)
+    # Weekly
+    "weekly": [
+        "my_medicinal.my_medicinal.tasks.cleanup_old_notifications",  # ? ????
+        "my_medicinal.my_medicinal.tasks.generate_weekly_reports"  # ? ????
+    ],
+    
+    # Monthly
     "monthly": [
-        "my_medicinal.tasks.generate_monthly_analytics"  # ? ????: ??????? ?????
+        "my_medicinal.my_medicinal.tasks.generate_monthly_analytics"  # ? ????
     ]
 }
 
 
 doc_events = {
-    "patient": {
-        "validate": "my_medicinal.api.patient.validate_patient",
-        "after_insert": "my_medicinal.api.patient.send_welcome_notification",
-        "on_update": "my_medicinal.api.patient.on_update"
-    },
+    #"patient": {
+     #   "validate": "my_medicinal.my_medicinal.api.patient.validate_patient",  # ? ????
+      #  "after_insert": "my_medicinal.my_medicinal.api.patient#.send_welcome_notification",  # ? ????
+ #       "on_update": "my_medicinal.my_medicinal.api.patient.on_update"  # ? ????
+  #  },
     
     "Medication Schedule": {
-        "validate": "my_medicinal.api.medication_schedule.validate",
-        "after_insert": "my_medicinal.api.medication_schedule.after_insert",
-        "on_update": "my_medicinal.api.medication_schedule.on_update",
-        "before_save": "my_medicinal.api.medication_schedule.calculate_depletion"
+        "validate": "my_medicinal.my_medicinal.api.medication.validate",  # ? ????
+        "after_insert": "my_medicinal.my_medicinal.api.medication.after_insert",  # ? ????
+        "on_update": "my_medicinal.my_medicinal.api.medication.on_update",  # ? ????
+        "before_save": "my_medicinal.my_medicinal.api.medication.calculate_depletion"  # ? ????
     },
     
     "Medication Log": {
-        "after_insert": "my_medicinal.api.medication_log.update_adherence"
+        "after_insert": "my_medicinal.my_medicinal.api.medication.update_adherence"  # ? ????
     },
     
     "Medical Prescription": {
-        "on_submit": "my_medicinal.api.prescription.notify_patient",
-        "validate": "my_medicinal.api.prescription.validate_prescription"
+        "on_submit": "my_medicinal.my_medicinal.api.prescription.notify_patient",  # ? ????
+        "validate": "my_medicinal.my_medicinal.api.prescription.validate_prescription"  # ? ????
     },
     
     "Patient Order": {
-        "validate": "my_medicinal.api.order.validate_order",
-        "on_update": "my_medicinal.api.order.update_inventory",
-        "on_submit": "my_medicinal.api.order.process_payment"
+        "validate": "my_medicinal.my_medicinal.api.order.validate_order",  # ? ????
+        "on_update": "my_medicinal.my_medicinal.api.order.update_inventory",  # ? ????
+        "on_submit": "my_medicinal.my_medicinal.api.order.process_payment"  # ? ????
     },
     
     "Medical Consultation": {
-        "after_insert": "my_medicinal.api.consultation.notify_doctor",
-        "on_update": "my_medicinal.api.consultation.notify_patient"
+        "after_insert": "my_medicinal.my_medicinal.api.consultation.notify_doctor",  # ? ????
+        "on_update": "my_medicinal.my_medicinal.api.consultation.notify_patient"  # ? ????
     }
     
 }
@@ -270,54 +272,40 @@ doc_events = {
 
 
 override_whitelisted_methods = {
-    # Patient APIs
-    "my_medicinal.api.patient.register": "my_medicinal.api.patient.register_patient",
-    "my_medicinal.api.patient.get_profile": "my_medicinal.api.patient.get_patient_profile",
-    "my_medicinal.api.patient.update_profile": "my_medicinal.api.patient.update_patient_profile",
+   # Patient APIs
+    "my_medicinal.my_medicinal.api.patient.register": "my_medicinal.my_medicinal.api.patient.register_patient",  # ? ????
+    "my_medicinal.my_medicinal.api.patient.get_profile": "my_medicinal.my_medicinal.api.patient.get_patient_profile",  # ? ????
+    "my_medicinal.my_medicinal.api.patient.update_profile": "my_medicinal.my_medicinal.api.patient.update_patient_profile",  # ? ????
     
     # Medication APIs
-    "my_medicinal.api.medication.add": "my_medicinal.api.medication_schedule.add_medication",
-    "my_medicinal.api.medication.get_list": "my_medicinal.api.medication_schedule.get_patient_medications",
-    "my_medicinal.api.medication.log_taken": "my_medicinal.api.medication_log.log_medication_taken",
+    "my_medicinal.my_medicinal.api.medication.add": "my_medicinal.my_medicinal.api.medication.add_medication",  # ? ????
+    "my_medicinal.my_medicinal.api.medication.get_list": "my_medicinal.my_medicinal.api.medication.get_patient_medications",  # ? ????
+    "my_medicinal.my_medicinal.api.medication.log_taken": "my_medicinal.my_medicinal.api.medication.log_medication_taken",  # ? ????
     
     # Consultation APIs
-    "my_medicinal.api.consultation.create": "my_medicinal.api.consultation.create_consultation",
-    "my_medicinal.api.consultation.get_list": "my_medicinal.api.consultation.get_consultations",
+    "my_medicinal.my_medicinal.api.consultation.create": "my_medicinal.my_medicinal.api.consultation.create_consultation",  # ? ????
+    "my_medicinal.my_medicinal.api.consultation.get_list": "my_medicinal.my_medicinal.api.consultation.get_consultations",  # ? ????
     
     # Order APIs
-    "my_medicinal.api.order.create": "my_medicinal.api.order.create_order",
-    "my_medicinal.api.order.get_list":"my_medicinal.api.order.get_orders",
+    "my_medicinal.my_medicinal.api.order.create": "my_medicinal.my_medicinal.api.order.create_order",  # ? ????
+    "my_medicinal.my_medicinal.api.order.get_list": "my_medicinal.my_medicinal.api.order.get_orders",  # ? ????
     
     # Shop APIs
-    "my_medicinal.api.shop.get_products": "my_medicinal.api.shop.get_medication_products",
-    "my_medicinal.api.shop.search": "my_medicinal.api.shop.search_products",
-    # provider APIs
-     "my_medicinal.api.provider.get_my_consultations":"my_medicinal.api.provider.get_my_consultations",
-    "my_medicinal.api.provider.get_consultation_details": "my_medicinal.api.provider.get_consultation_details",
-    "my_medicinal.api.provider.update_consultation": "my_medicinal.api.provider.update_consultation",
-    "my_medicinal.api.provider.create_prescription": "my_medicinal.api.provider.create_prescription",
-    "my_medicinal.api.provider.get_my_prescriptions": "my_medicinal.api.provider.get_my_prescriptions",
-    "my_medicinal.api.provider.get_my_patients": "my_medicinal.api.provider.get_my_patients",
-    "my_medicinal.api.provider.get_patient_history": "my_medicinal.api.provider.get_patient_history",
-    "my_medicinal.api.provider.get_doctor_statistics":"my_medicinal.api.provider.get_doctor_statistics",
-    "my_medicinal.api.provider.update_my_profile": "my_medicinal.api.provider.update_my_profile",
+    "my_medicinal.my_medicinal.api.product.get_products": "my_medicinal.my_medicinal.api.product.get_medication_products",  # ? ????
+    "my_medicinal.my_medicinal.api.product.search": "my_medicinal.my_medicinal.api.product.search_products",  # ? ????
+    
+     # Provider APIs
+    "my_medicinal.my_medicinal.api.provider.get_my_consultations": "my_medicinal.my_medicinal.api.provider.get_my_consultations",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.get_consultation_details": "my_medicinal.my_medicinal.api.provider.get_consultation_details",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.update_consultation": "my_medicinal.my_medicinal.api.provider.update_consultation",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.create_prescription": "my_medicinal.my_medicinal.api.provider.create_prescription",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.get_my_prescriptions": "my_medicinal.my_medicinal.api.provider.get_my_prescriptions",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.get_my_patients": "my_medicinal.my_medicinal.api.provider.get_my_patients",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.get_patient_history": "my_medicinal.my_medicinal.api.provider.get_patient_history",  # ? ????
+    "my_medicinal.my_medicinal.api.provider.get_doctor_statistics": "my_medicinal.my_medicinal.api.provider.get_doctor_statistics",
+    "my_medicinal.my_medicinal.api.provider.update_my_profile": "my_medicinal.my_medicinal.api.provider.update_my_profile",  
+
 }
-
-# ============================================================================
-# WHITELISTED API METHODS - ? API Endpoints
-# ============================================================================
-
-
-
-# ============================================================================
-# PERMISSIONS - ? ?????????
-# ============================================================================
-
-
-# ============================================================================
-# JINJA METHODS - ? ??? Jinja ??? Templates
-# ============================================================================
-
 
 # ============================================================================
 # NOTIFICATION CONFIG - ? ??????? ?????????
@@ -343,8 +331,8 @@ allow_cors = [
 # ============================================================================
 
 rate_limit = {
-    "limit": 100,  # ??? ???????
-    "window": 60   # ????????
+    "limit": 100,  
+    "window": 60 
 }
 
 # ============================================================================
@@ -380,22 +368,6 @@ auto_cancel_exempted_doctypes = [
     "Notification Log"
 ]
 
-# ============================================================================
-# BEFORE/AFTER REQUEST HOOKS - ? Hooks ???/??? ?????
-# ============================================================================
-
-# before_request = ["my_medicinal.utils.before_request"]
-# after_request = ["my_medicinal.utils.after_request"]
-
-# ============================================================================
-# TESTING - ? ????????
-# ============================================================================
-
-# before_tests = "my_medicinal.install.before_tests"
-
-# ============================================================================
-# USER DATA PROTECTION - ? ????? ?????? ????????
-# ============================================================================
 
 user_data_fields = [
     {
@@ -412,17 +384,6 @@ user_data_fields = [
     }
 ]
 
-# ============================================================================
-# TRANSLATIONS - ? ????????
-# ============================================================================
-
-# translations = {
-#     "ar": "my_medicinal/translations/ar.json"
-# }
-
-# ============================================================================
-# ADDITIONAL SETTINGS - ? ??????? ??????
-# ============================================================================
 
 # FCM Configuration (Push Notifications)
 fcm_enabled = True
@@ -458,81 +419,3 @@ def on_session_creation(login_manager):
 
 
 
-
-# ============================================================================
-# CUSTOM COMMANDS - ? ????? ?????
-# ============================================================================
-
-# Add to bench commands:
-# bench --site site1.local execute my_medicinal.commands.send_test_notification
-
-# ============================================================================
-# END OF CONFIGURATION
-# Testing
-# -------
-
-# before_tests = "my_medicinal.install.before_tests"
-
-# Overriding Methods
-# ------------------------------
-#
-# override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "my_medicinal.event.get_events"
-# }
-#
-# each overriding function accepts a `data` argument;
-# generated from the base implementation of the doctype dashboard,
-# along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-#	"Task": "my_medicinal.task.get_dashboard_data"
-# }
-
-# exempt linked doctypes from being automatically cancelled
-#
-# auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
-# Ignore links to specified DocTypes when deleting documents
-# -----------------------------------------------------------
-
-# ignore_links_on_delete = ["Communication", "ToDo"]
-
-# Request Events
-# ----------------
-# before_request = ["my_medicinal.utils.before_request"]
-# after_request = ["my_medicinal.utils.after_request"]
-
-# Job Events
-# ----------
-# before_job = ["my_medicinal.utils.before_job"]
-# after_job = ["my_medicinal.utils.after_job"]
-
-# User Data Protection
-# --------------------
-
-# user_data_fields = [
-#	{
-#		"doctype": "{doctype_1}",
-#		"filter_by": "{filter_by}",
-#		"redact_fields": ["{field_1}", "{field_2}"],
-#		"partial": 1,
-#	},
-#	{
-#		"doctype": "{doctype_2}",
-#		"filter_by": "{filter_by}",
-#		"partial": 1,
-#	},
-#	{
-#		"doctype": "{doctype_3}",
-#		"strict": False,
-#	},
-#	{
-#		"doctype": "{doctype_4}"
-#	}
-# ]
-
-# Authentication and authorization
-# --------------------------------
-
-# auth_hooks = [
-#	"my_medicinal.auth.validate"
-# ]

@@ -40,7 +40,7 @@ def register(mobile, password, patient_data):
         # Create User
         user = frappe.get_doc({
             "doctype": "User",
-            "email": f"{mobile}@dawaii.local",
+            "email": f"{mobile}@site1.local",
             "mobile_no": mobile,
             "first_name": patient_data.get("patient_name", "Patient"),
             "user_type": "Website User",
