@@ -45,7 +45,7 @@ def get_notification_config():
             "my_medicinal": "green"
         },
         
-        # Open count for doctypes
+        # Open count for d
         "open_count_doctype": {
             "Medical Consultation": "status",
             "Patient Order": "status"
