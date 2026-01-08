@@ -273,7 +273,7 @@ doc_events = {
 
 override_whitelisted_methods = {
    # Patient APIs
-    "my_medicinal.my_medicinal.api.patient.register": "my_medicinal.my_medicinal.api.patient.register_patient",  # ? ????
+    "my_medicinal.my_medicinal.api.patient.register": "my_medicinal.my_medicinal.api.patient.register",  # ? ????
     "my_medicinal.my_medicinal.api.patient.get_profile": "my_medicinal.my_medicinal.api.patient.get_patient_profile",  # ? ????
     "my_medicinal.my_medicinal.api.patient.update_profile": "my_medicinal.my_medicinal.api.patient.update_patient_profile",  # ? ????
     
@@ -323,7 +323,7 @@ email_brand_color = "#2D6A4F"
 allow_cors = [
     "https://yourdomain.com",
     "http://localhost:3000",  # ???????
-    "http://localhost:8080"   # ???????
+    "http://127.0.0.1:8000"   # ???????
 ]
 
 # ============================================================================
@@ -411,11 +411,6 @@ import frappe
 def on_session_creation(login_manager):
     """Called when user logs in"""
     frappe.logger().info(f"Dawaii {login_manager.user}")
-
-
-
-
-
 
 
 

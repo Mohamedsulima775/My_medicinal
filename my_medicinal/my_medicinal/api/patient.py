@@ -12,42 +12,53 @@ import json
 # ============================================
 
 @frappe.whitelist(allow_guest=True)
-def register(mobile, password, patient_data):
+def register(patient_name, mobile, password, email=None, date_of_birth=None, gender=None):
     """
     Register a new patient
     
     Args:
-        mobile: Patient mobile number (unique)
-        password: Strong password (min 8 chars, mixed case, numbers, symbols)
-        patient_data: JSON string or dict with patient info
+        patient_name: Full name
+        mobile: Mobile number (05XXXXXXXX)
+        password: Password
+        email: Optional email
+        date_of_birth: Optional DOB
+        gender: Optional gender
     
     Returns:
-        {
-            "success": True,
-            "patient": {...},
-            "token": "..."
-        }
+        {"success": True, "patient": {...}, "token": "..."}
     """
     try:
-        # Parse patient_data if string
-        if isinstance(patient_data, str):
-            patient_data = json.loads(patient_data)
+        # Validate mobile
+        if not mobile.startswith('05') or len(mobile) != 10:
+            frappe.throw(_("Invalid mobile number. Must be 05XXXXXXXX"))
         
         # Check if mobile already exists
         if frappe.db.exists("patient", {"mobile": mobile}):
             frappe.throw(_("Mobile number already registered"))
         
+        # Generate email if not provided
+        if not email:
+            email = f"{mobile}@dawaii.local"
+        
+        # Check if email exists
+        if frappe.db.exists("User", email):
+            frappe.throw(_("Email already registered"))
+        
         # Create User
         user = frappe.get_doc({
             "doctype": "User",
-            "email": f"{mobile}@site1.local",
+            "email": email,
             "mobile_no": mobile,
-            "first_name": patient_data.get("patient_name", "Patient"),
+            "first_name": patient_name,
+            "enabled": 1,
             "user_type": "Website User",
-            "send_welcome_email": 0,
-            "new_password": password
+            "send_welcome_email": 0
         })
         user.insert(ignore_permissions=True)
+        
+        # Set password
+        from frappe.utils.password import update_password
+        update_password(user.name, password)
         
         # Add Patient role
         user.add_roles("Patient")
@@ -55,23 +66,20 @@ def register(mobile, password, patient_data):
         # Create Patient record
         patient = frappe.get_doc({
             "doctype": "patient",
-            "patient_name": patient_data.get("patient_name"),
+            "patient_name": patient_name,
             "mobile": mobile,
-            "email": user.email,
+            "email": email,
             "user": user.name,
-            "date_of_birth": patient_data.get("date_of_birth"),
-            "gender": patient_data.get("gender"),
-            "blood_group": patient_data.get("blood_group"),
-            "allergies": patient_data.get("allergies"),
-            "medical_notes": patient_data.get("medical_notes"),
+            "date_of_birth": date_of_birth,
+            "gender": gender,
             "status": "Active"
         })
         
         patient.insert(ignore_permissions=True)
         frappe.db.commit()
         
-        # Generate token
-        token = generate_token(user.name)
+        # Generate API key for token
+        api_key, api_secret = generate_api_keys(user.name)
         
         return {
             "success": True,
@@ -82,10 +90,12 @@ def register(mobile, password, patient_data):
                 "mobile": patient.mobile,
                 "email": patient.email
             },
-            "token": token
+            "token": api_key,
+            "user": user.name
         }
         
     except Exception as e:
+        frappe.db.rollback()
         frappe.log_error(frappe.get_traceback(), "Patient Registration Error")
         frappe.throw(_("Registration failed: {0}").format(str(e)))
 
@@ -100,11 +110,7 @@ def login(mobile, password):
         password: Account password
     
     Returns:
-        {
-            "success": True,
-            "patient": {...},
-            "token": "..."
-        }
+        {"success": True, "patient": {...}, "token": "..."}
     """
     try:
         # Get user by mobile
@@ -113,29 +119,33 @@ def login(mobile, password):
         if not user_email:
             frappe.throw(_("Mobile number not registered"))
         
-        # Authenticate
-        from frappe.auth import check_password
-        check_password(user_email, password)
+        # Authenticate - check password
+        from frappe.utils.password import check_password
+        try:
+            check_password(user_email, password)
+        except frappe.AuthenticationError:
+            frappe.throw(_("Invalid mobile number or password"))
         
         # Get patient
-        patient = frappe.get_doc("patient", {"user": user_email})
+        patient_doc = frappe.get_doc("patient", {"user": user_email})
         
-        if patient.status != "Active":
+        if patient_doc.status != "Active":
             frappe.throw(_("Account is not active"))
         
-        # Generate token
-        token = generate_token(user_email)
+        # Generate or get API key
+        api_key, api_secret = generate_api_keys(user_email)
         
         return {
             "success": True,
             "message": "Login successful",
             "patient": {
-                "patient_id": patient.name,
-                "patient_name": patient.patient_name,
-                "mobile": patient.mobile,
-                "email": patient.email
+                "patient_id": patient_doc.name,
+                "patient_name": patient_doc.patient_name,
+                "mobile": patient_doc.mobile,
+                "email": patient_doc.email,
+                "user": user_email
             },
-            "token": token
+            "token": api_key
         }
         
     except frappe.AuthenticationError:
@@ -170,16 +180,19 @@ def get_profile(patient_id=None):
             frappe.throw(_("Not authorized"))
         
         return {
-            "patient_id": patient.name,
-            "patient_name": patient.patient_name,
-            "mobile": patient.mobile,
-            "email": patient.email,
-            "date_of_birth": patient.date_of_birth,
-            "gender": patient.gender,
-            "blood_group": patient.blood_group,
-            "allergies": patient.allergies,
-            "medical_notes": patient.medical_notes,
-            "status": patient.status
+            "success": True,
+            "patient": {
+                "patient_id": patient.name,
+                "patient_name": patient.patient_name,
+                "mobile": patient.mobile,
+                "email": patient.email,
+                "date_of_birth": patient.date_of_birth,
+                "gender": patient.gender,
+                "blood_group": patient.blood_group,
+                "allergies": patient.allergies,
+                "medical_notes": patient.medical_notes,
+                "status": patient.status
+            }
         }
         
     except Exception as e:
@@ -225,6 +238,7 @@ def update_profile(patient_id, profile_data):
         return get_profile(patient_id)
         
     except Exception as e:
+        frappe.db.rollback()
         frappe.log_error(frappe.get_traceback(), "Update Profile Error")
         frappe.throw(_("Failed to update profile: {0}").format(str(e)))
 
@@ -233,15 +247,39 @@ def update_profile(patient_id, profile_data):
 # HELPER FUNCTIONS
 # ============================================
 
-def generate_token(user):
-    """Generate authentication token"""
-    from frappe.utils import cstr
-    import hashlib
-    import secrets
+def generate_api_keys(user):
+    """
+    Generate or get existing API keys for user
     
-    # Simple token generation
-    token_string = f"{user}-{secrets.token_hex(16)}"
-    return hashlib.sha256(token_string.encode()).hexdigest()
+    Returns:
+        (api_key, api_secret) tuple
+    """
+    try:
+        # Check if user already has API key
+        api_key = frappe.db.get_value("User", user, "api_key")
+        api_secret = frappe.db.get_value("User", user, "api_secret")
+        
+        if api_key and api_secret:
+            return (api_key, api_secret)
+        
+        # Generate new keys
+        api_key = frappe.generate_hash(length=15)
+        api_secret = frappe.generate_hash(length=15)
+        
+        # Update user
+        frappe.db.set_value("User", user, "api_key", api_key)
+        frappe.db.set_value("User", user, "api_secret", api_secret)
+        frappe.db.commit()
+        
+        return (api_key, api_secret)
+        
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Generate API Keys Error")
+        # Return simple token as fallback
+        import hashlib
+        import secrets
+        token = hashlib.sha256(f"{user}-{secrets.token_hex(16)}".encode()).hexdigest()
+        return (token, token)
 
 
 @frappe.whitelist()
@@ -251,3 +289,52 @@ def get_my_patient_id():
     if not patient_id:
         frappe.throw(_("Patient record not found"))
     return patient_id
+
+
+# ============================================
+# HOOKS FUNCTIONS (for doc_events)
+# ============================================
+
+def validate_patient(doc, method):
+    """
+    Validate patient before save
+    Called from hooks.py doc_events
+    """
+    # Validate mobile number
+    if doc.mobile and not doc.mobile.startswith('05'):
+        frappe.throw(_("Mobile number must start with 05"))
+    
+    # Check email uniqueness
+    if doc.email and doc.is_new():
+        if frappe.db.exists("patient", {"email": doc.email, "name": ["!=", doc.name]}):
+            frappe.throw(_("Email already exists"))
+
+
+def send_welcome_notification(doc, method):
+    """
+    Send welcome notification after patient insert
+    Called from hooks.py doc_events
+    """
+    try:
+        frappe.logger().info(f"Welcome notification for: {doc.patient_name}")
+        # TODO: Add FCM notification here
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Welcome Notification Error")
+
+
+def on_update(doc, method):
+    """
+    Called when patient is updated
+    Called from hooks.py doc_events
+    """
+    try:
+        frappe.logger().info(f"Patient updated: {doc.name}")
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Patient Update Error")
+
+
+@frappe.whitelist()
+def logout():
+    """Logout current user"""
+    frappe.local.login_manager.logout()
+    return {"success": True, "message": "Logged out successfully"}
