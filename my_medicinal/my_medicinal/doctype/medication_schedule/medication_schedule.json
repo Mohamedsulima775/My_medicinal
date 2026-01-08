@@ -1,4 +1,5 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:MED-{patient_name}-{####}",
@@ -45,7 +46,19 @@
   "auto_reorder",
   "last_refill_date",
   "modified_at",
-  "created_at"
+  "created_at",
+  "column_break_1",
+  "section_break_2",
+  "dosage_unit",
+  "column_break_2",
+  "times_section",
+  "stock_section",
+  "column_break_3",
+  "section_break_4",
+  "additional_info_section",
+  "column_break_4",
+  "section_break_5",
+  "last_stock_update"
  ],
  "fields": [
   {
@@ -280,11 +293,67 @@
    "fieldname": "created_at",
    "fieldtype": "Datetime",
    "label": "created at"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "dosage_unit",
+   "fieldtype": "Select",
+   "label": "Dosage Unit",
+   "options": "mg\nml\ng\nmcg\nIU"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "times_section",
+   "fieldtype": "Section Break",
+   "label": "Medication Times"
+  },
+  {
+   "fieldname": "stock_section",
+   "fieldtype": "Section Break",
+   "label": "Stock Management"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "additional_info_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "last_stock_update",
+   "fieldtype": "Datetime",
+   "label": "Last Stock Update",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-25 05:17:38.730707",
+ "modified": "2026-01-09 01:19:04.782672",
  "modified_by": "Administrator",
  "module": "my_medicinal",
  "name": "Medication Schedule",
