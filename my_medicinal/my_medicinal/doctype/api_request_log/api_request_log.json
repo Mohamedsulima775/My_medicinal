@@ -1,0 +1,193 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:API-LOG-{#####}",
+ "creation": "2026-01-09 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "request_section",
+  "request_id",
+  "timestamp",
+  "user",
+  "ip_address",
+  "column_break_1",
+  "method",
+  "endpoint",
+  "user_agent",
+  "request_data_section",
+  "query_params",
+  "request_body",
+  "response_section",
+  "status_code",
+  "execution_time",
+  "column_break_2",
+  "completed_at",
+  "response_body",
+  "error_section",
+  "error_type",
+  "error_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "request_section",
+   "fieldtype": "Section Break",
+   "label": "Request Info"
+  },
+  {
+   "fieldname": "request_id",
+   "fieldtype": "Data",
+   "label": "Request ID",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "method",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Method",
+   "options": "GET\\nPOST\\nPUT\\nPATCH\\nDELETE",
+   "read_only": 1
+  },
+  {
+   "fieldname": "endpoint",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Endpoint",
+   "read_only": 1
+  },
+  {
+   "fieldname": "user_agent",
+   "fieldtype": "Small Text",
+   "label": "User Agent",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "request_data_section",
+   "fieldtype": "Section Break",
+   "label": "Request Data"
+  },
+  {
+   "fieldname": "query_params",
+   "fieldtype": "Long Text",
+   "label": "Query Parameters",
+   "read_only": 1
+  },
+  {
+   "fieldname": "request_body",
+   "fieldtype": "Long Text",
+   "label": "Request Body",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "response_section",
+   "fieldtype": "Section Break",
+   "label": "Response"
+  },
+  {
+   "fieldname": "status_code",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Status Code",
+   "read_only": 1
+  },
+  {
+   "description": "In seconds",
+   "fieldname": "execution_time",
+   "fieldtype": "Float",
+   "label": "Execution Time",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "response_body",
+   "fieldtype": "Long Text",
+   "label": "Response Body",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "error_message",
+   "fieldname": "error_section",
+   "fieldtype": "Section Break",
+   "label": "Error Details"
+  },
+  {
+   "fieldname": "error_type",
+   "fieldtype": "Data",
+   "label": "Error Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Text",
+   "label": "Error Message",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "my_medicinal",
+ "name": "API Request Log",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 0,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

@@ -406,7 +406,25 @@ payment_gateway_enabled = bool(int(os.getenv("PAYMENT_GATEWAY_ENABLED", "0")))
 payment_gateway_provider = os.getenv("PAYMENT_GATEWAY_PROVIDER", "stripe")  # "stripe", "payfort", or "paytabs"
 
 # ============================================================================
-# CONSOLE LOG - ? ??? Console
+# SECURITY & MONITORING HOOKS
+# ============================================================================
+
+# Add security headers to all responses
+after_request = [
+    "my_medicinal.my_medicinal.security_headers.add_security_headers"
+]
+
+# Validate requests before processing
+before_request = [
+    "my_medicinal.my_medicinal.security_headers.validate_content_type",
+    "my_medicinal.my_medicinal.security_headers.sanitize_input"
+]
+
+# Enable API request logging (set to 0 to disable)
+api_logging_enabled = bool(int(os.getenv("API_LOGGING_ENABLED", "1")))
+
+# ============================================================================
+# CONSOLE LOG
 # ============================================================================
 # Log app startup
 import frappe
