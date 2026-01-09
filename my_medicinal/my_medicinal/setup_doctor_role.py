@@ -1,271 +1,378 @@
-"""
 # -*- coding: utf-8 -*-
 """
-Script to setup Healthcare Provider role and permissions
-Run: bench --site your-site.local execute my_medicinal.setup_doctor_role
+Healthcare Provider Setup Script
+=================================
+Script to setup Healthcare Provider role, permissions, workspace, and dashboard.
+
+Usage:
+    bench --site my_medicinal.local execute my_medicinal.my_medicinal.setup_doctor_role.setup_healthcare_provider
+
+Author: Mohammed Suliman
+Date: 2026-01-09
 """
 
 import frappe
 from frappe import _
+import json
 
-def setup_doctor_role():
-    """Create Healthcare Provider role with proper permissions"""
-    
-    print("🏥 Setting up Healthcare Provider Role...")
-    
-    # 1. Create Role if not exists
-    if not frappe.db.exists("Role", "Healthcare Provider"):
+
+def setup_healthcare_provider():
+    """
+    Main function to setup Healthcare Provider role and workspace
+
+    This function:
+    1. Creates Healthcare Provider role
+    2. Sets up permissions for all relevant doctypes
+    3. Creates custom workspace for doctors
+    4. Sets up dashboard with charts
+    """
+
+    try:
+        print("=" * 60)
+        print("🏥 Starting Healthcare Provider Setup")
+        print("=" * 60)
+
+        # Step 1: Create role
+        create_healthcare_provider_role()
+
+        # Step 2: Setup permissions
+        setup_doctype_permissions()
+
+        # Step 3: Create workspace
+        create_doctor_workspace()
+
+        # Step 4: Setup dashboard
+        setup_doctor_dashboard()
+
+        frappe.db.commit()
+
+        print("\n" + "=" * 60)
+        print("✅ Healthcare Provider setup complete!")
+        print("=" * 60)
+
+        return {"success": True, "message": "Setup completed successfully"}
+
+    except Exception as e:
+        frappe.db.rollback()
+        frappe.log_error(frappe.get_traceback(), "Healthcare Provider Setup Error")
+        print(f"\n❌ Error: {str(e)}")
+        print("Check Error Log for details")
+        raise
+
+
+# ============================================================================
+# ROLE CREATION
+# ============================================================================
+
+def create_healthcare_provider_role():
+    """Create Healthcare Provider role if it doesn't exist"""
+
+    print("\n👨‍⚕️ Setting up Healthcare Provider role...")
+
+    role_name = "Healthcare Provider"
+
+    if frappe.db.exists("Role", role_name):
+        print(f"ℹ️  Role '{role_name}' already exists")
+        return
+
+    try:
         role = frappe.get_doc({
             "doctype": "Role",
-            "role_name": "Healthcare Provider",
+            "role_name": role_name,
             "desk_access": 1,
+            "is_custom": 1,
             "disabled": 0
         })
         role.insert(ignore_permissions=True)
-        print("✅ Role 'Healthcare Provider' created")
-    else:
-        print("ℹ️  Role 'Healthcare Provider' already exists")
-    
-    # 2. Setup permissions for Healthcare Provider DocType
-    setup_doctype_permissions()
-    
-    # 3. Create default doctor workspace
-    create_doctor_workspace()
-    
-    # 4. Setup doctor dashboard
-    setup_doctor_dashboard()
-    
-    frappe.db.commit()
-    print("🎉 Healthcare Provider setup complete!")
-    
+        print(f"✅ Role '{role_name}' created successfully")
+
+    except Exception as e:
+        print(f"❌ Error creating role: {str(e)}")
+        raise
+
+
+# ============================================================================
+# PERMISSIONS SETUP
+# ============================================================================
 
 def setup_doctype_permissions():
     """Setup permissions for Healthcare Provider role"""
-    
+
     print("\n📋 Setting up DocType permissions...")
-    
+
     # Define permissions for each DocType
     permissions_map = {
-        # Full access
+        # Full access for consultations
         "Medical Consultation": {
             "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1,
-            "condition": 'doc.provider == frappe.session.user'
+            "description": "Full access to consultations"
         },
         "Consultation Message": {
             "read": 1, "write": 1, "create": 1,
-            "condition": 'doc.sender == frappe.session.user'
+            "description": "Manage consultation messages"
         },
+
+        # Prescription management
         "Medical Prescription": {
             "read": 1, "write": 1, "create": 1, "submit": 1,
-            "condition": 'doc.provider == frappe.session.user'
+            "description": "Create and manage prescriptions"
         },
         "Prescription Item": {
-            "read": 1, "write": 1, "create": 1
+            "read": 1, "write": 1, "create": 1,
+            "description": "Add prescription items"
         },
-        
-        # Read only
+
+        # Read-only access to patient data
         "patient": {
-            "read": 1, "write": 0, "create": 0
+            "read": 1, "write": 0, "create": 0,
+            "description": "View patient information"
         },
         "Medication Schedule": {
-            "read": 1, "write": 0, "create": 0
+            "read": 1, "write": 0, "create": 0,
+            "description": "View medication schedules"
         },
         "Medication Log": {
-            "read": 1, "write": 0, "create": 0
+            "read": 1, "write": 0, "create": 0,
+            "description": "View medication logs"
         },
         "Patient Order": {
-            "read": 1, "write": 0, "create": 0
+            "read": 1, "write": 0, "create": 0,
+            "description": "View patient orders"
         },
         "Adherence Report": {
-            "read": 1, "write": 0, "create": 0
+            "read": 1, "write": 0, "create": 0,
+            "description": "View adherence reports"
         },
-        
-        # Full access to own profile
+
+        # Own profile management
         "Healthcare Provider": {
             "read": 1, "write": 1, "create": 0,
-            "condition": 'doc.user == frappe.session.user'
+            "description": "Manage own profile"
         },
         "Provider Schedule": {
             "read": 1, "write": 1, "create": 1,
-            "condition": 'doc.provider == frappe.session.user'
+            "description": "Manage own schedule"
         }
     }
-    
+
+    success_count = 0
+    skip_count = 0
+
     for doctype, perms in permissions_map.items():
+        # Check if doctype exists
         if not frappe.db.exists("DocType", doctype):
             print(f"⚠️  DocType '{doctype}' not found, skipping")
+            skip_count += 1
             continue
-            
-        # Clear existing permissions
-        frappe.db.delete("Custom DocPerm", {
-            "parent": doctype,
-            "role": "Healthcare Provider"
-        })
-        
-        # Add new permissions
-        perm = frappe.get_doc({
-            "doctype": "Custom DocPerm",
-            "parent": doctype,
-            "parenttype": "DocType",
-            "parentfield": "permissions",
-            "role": "Healthcare Provider",
-            "permlevel": 0,
-            "read": perms.get("read", 0),
-            "write": perms.get("write", 0),
-            "create": perms.get("create", 0),
-            "delete": perms.get("delete", 0),
-            "submit": perms.get("submit", 0),
-            "cancel": perms.get("cancel", 0),
-            "amend": perms.get("amend", 0),
-            "if_owner": perms.get("if_owner", 0)
-        })
-        
-        # Add condition if specified
-        if "condition" in perms:
-            perm.update({"condition": perms["condition"]})
-        
-        perm.insert(ignore_permissions=True)
-        print(f"✅ Permissions set for {doctype}")
-    
-    frappe.db.commit()
 
+        try:
+            # Check if permission already exists
+            existing = frappe.db.exists("Custom DocPerm", {
+                "parent": doctype,
+                "role": "Healthcare Provider"
+            })
+
+            if existing:
+                print(f"ℹ️  Permission for '{doctype}' already exists")
+                skip_count += 1
+                continue
+
+            # Create new permission
+            description = perms.pop("description", "")
+
+            perm = frappe.get_doc({
+                "doctype": "Custom DocPerm",
+                "parent": doctype,
+                "parenttype": "DocType",
+                "parentfield": "permissions",
+                "role": "Healthcare Provider",
+                "permlevel": 0,
+                **perms
+            })
+
+            perm.insert(ignore_permissions=True)
+            print(f"✅ Permission set for '{doctype}' - {description}")
+            success_count += 1
+
+        except Exception as e:
+            print(f"❌ Error setting permission for '{doctype}': {str(e)}")
+            continue
+
+    frappe.db.commit()
+    print(f"\n📊 Summary: {success_count} created, {skip_count} skipped")
+
+
+# ============================================================================
+# WORKSPACE CREATION
+# ============================================================================
 
 def create_doctor_workspace():
-    """Create custom workspace for doctors"""
-    
-    print("\n🏥 Creating Doctor's Workspace...")
-    
+    """Create custom workspace for Healthcare Providers"""
+
+    print("\n🖥️  Creating Healthcare Provider Workspace...")
+
     workspace_name = "Healthcare Provider Portal"
-    
-    # Delete existing workspace if any
-    if frappe.db.exists("Workspace", workspace_name):
-        frappe.delete_doc("Workspace", workspace_name, force=1)
-    
-    workspace = frappe.get_doc({
-        "doctype": "Workspace",
-        "title": workspace_name,
-        "module": "My Medicinal",
-        "icon": "medical",
-        "restrict_to_domain": "",
-        "public": 0,
-        "is_hidden": 0,
-        "for_user": "",
-        "content": get_workspace_content()
-    })
-    
-    workspace.insert(ignore_permissions=True)
-    
-    # Assign to Healthcare Provider role
-    workspace.append("roles", {
-        "role": "Healthcare Provider"
-    })
-    workspace.save(ignore_permissions=True)
-    
-    print(f"✅ Workspace '{workspace_name}' created")
-    frappe.db.commit()
+
+    try:
+        # Delete existing workspace if any
+        if frappe.db.exists("Workspace", workspace_name):
+            frappe.delete_doc("Workspace", workspace_name, force=1, ignore_permissions=True)
+            print("ℹ️  Deleted existing workspace")
+
+        # Create new workspace
+        workspace = frappe.get_doc({
+            "doctype": "Workspace",
+            "title": workspace_name,
+            "module": "my_medicinal",
+            "icon": "medical",
+            "public": 1,
+            "is_hidden": 0,
+            "content": json.dumps(get_workspace_content())
+        })
+
+        workspace.insert(ignore_permissions=True)
+        print(f"✅ Workspace '{workspace_name}' created")
+
+        # Assign to Healthcare Provider role
+        assign_workspace_to_role(workspace_name, "Healthcare Provider")
+
+        frappe.db.commit()
+
+    except Exception as e:
+        print(f"❌ Error creating workspace: {str(e)}")
+        frappe.log_error(frappe.get_traceback(), "Workspace Creation Error")
+        raise
+
+
+def assign_workspace_to_role(workspace_name, role_name):
+    """Assign workspace to a specific role"""
+
+    try:
+        # Check if already assigned
+        exists = frappe.db.exists("Has Role", {
+            "parent": workspace_name,
+            "parenttype": "Workspace",
+            "role": role_name
+        })
+
+        if exists:
+            print(f"ℹ️  Workspace already assigned to '{role_name}'")
+            return
+
+        # Create role assignment
+        has_role = frappe.get_doc({
+            "doctype": "Has Role",
+            "parent": workspace_name,
+            "parenttype": "Workspace",
+            "parentfield": "roles",
+            "role": role_name
+        })
+        has_role.insert(ignore_permissions=True)
+        print(f"✅ Workspace assigned to '{role_name}'")
+
+    except Exception as e:
+        print(f"⚠️  Could not assign workspace: {str(e)}")
 
 
 def get_workspace_content():
-    """Return workspace JSON content"""
-    
-    import json
-    
-    content = [
+    """Return workspace content in JSON format"""
+
+    return [
+        # Header
         {
             "type": "Header",
             "data": {
-                "text": "لوحة التحكم - الطبيب",
+                "text": "لوحة تحكم مقدم الرعاية الصحية",
                 "col": 12
             }
         },
         {
+            "type": "Card Break"
+        },
+
+        # Quick shortcuts
+        {
             "type": "Shortcut",
             "data": {
+                "shortcut_name": "الاستشارات النشطة",
                 "label": "الاستشارات النشطة",
-                "type": "DocType",
                 "link_to": "Medical Consultation",
-                "doc_view": "List",
-                "icon": "comments",
-                "color": "blue",
-                "stats_filter": '{"status": "Active", "provider": ["=", "%(user)s"]}',
-                "col": 3
+                "type": "DocType",
+                "icon": "medical",
+                "color": "Green"
             }
         },
         {
             "type": "Shortcut",
             "data": {
-                "label": "الوصفات الطبية",
-                "type": "DocType",
+                "shortcut_name": "كتابة وصفة",
+                "label": "كتابة وصفة جديدة",
                 "link_to": "Medical Prescription",
-                "doc_view": "List",
-                "icon": "file-medical",
-                "color": "green",
-                "col": 3
+                "type": "DocType",
+                "icon": "file",
+                "color": "Blue"
             }
         },
         {
             "type": "Shortcut",
             "data": {
-                "label": "المرضى",
-                "type": "DocType",
+                "shortcut_name": "المرضى",
+                "label": "عرض المرضى",
                 "link_to": "patient",
-                "doc_view": "List",
+                "type": "DocType",
                 "icon": "users",
-                "color": "orange",
-                "col": 3
+                "color": "Orange"
             }
         },
         {
             "type": "Shortcut",
             "data": {
+                "shortcut_name": "جدول المواعيد",
                 "label": "جدول المواعيد",
-                "type": "DocType",
                 "link_to": "Provider Schedule",
-                "doc_view": "List",
+                "type": "DocType",
                 "icon": "calendar",
-                "color": "purple",
-                "col": 3
+                "color": "Purple"
             }
         },
+
         {
-            "type": "Header",
-            "data": {
-                "text": "الاستشارات",
-                "col": 12
-            }
+            "type": "Card Break"
         },
+
+        # Consultations card
         {
             "type": "Card",
             "data": {
-                "card_name": "استشاراتي",
+                "card_name": "الاستشارات",
                 "col": 6,
                 "links": [
                     {
                         "label": "جميع الاستشارات",
-                        "type": "DocType",
-                        "name": "Medical Consultation",
-                        "description": "عرض جميع الاستشارات"
+                        "type": "Link",
+                        "link_type": "DocType",
+                        "link_to": "Medical Consultation",
+                        "is_query_report": 0
                     },
                     {
-                        "label": "استشارات قيد الانتظار",
-                        "type": "DocType",
-                        "name": "Medical Consultation",
-                        "onboard": 0,
-                        "link_type": "List",
+                        "label": "الاستشارات قيد الانتظار",
+                        "type": "Link",
+                        "link_type": "DocType",
                         "link_to": "Medical Consultation",
-                        "filters": '{"status": "Pending"}'
+                        "is_query_report": 0
                     },
                     {
                         "label": "استشارات اليوم",
-                        "type": "DocType",
-                        "name": "Medical Consultation",
-                        "link_type": "List",
+                        "type": "Link",
+                        "link_type": "DocType",
                         "link_to": "Medical Consultation",
-                        "filters": '{"consultation_date": [">=", "Today"]}'
+                        "is_query_report": 0
                     }
                 ]
             }
         },
+
+        # Prescriptions & Patients card
         {
             "type": "Card",
             "data": {
@@ -273,109 +380,98 @@ def get_workspace_content():
                 "col": 6,
                 "links": [
                     {
-                        "label": "كتابة وصفة جديدة",
-                        "type": "DocType",
-                        "name": "Medical Prescription",
-                        "description": "إنشاء وصفة طبية جديدة"
+                        "label": "الوصفات الطبية",
+                        "type": "Link",
+                        "link_type": "DocType",
+                        "link_to": "Medical Prescription",
+                        "is_query_report": 0
                     },
                     {
-                        "label": "عرض المرضى",
-                        "type": "DocType",
-                        "name": "patient"
+                        "label": "المرضى",
+                        "type": "Link",
+                        "link_type": "DocType",
+                        "link_to": "patient",
+                        "is_query_report": 0
                     },
                     {
                         "label": "تقارير الالتزام",
-                        "type": "DocType",
-                        "name": "Adherence Report"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Header",
-            "data": {
-                "text": "الإعدادات",
-                "col": 12
-            }
-        },
-        {
-            "type": "Card",
-            "data": {
-                "card_name": "ملفي الشخصي",
-                "col": 4,
-                "links": [
-                    {
-                        "label": "معلوماتي الشخصية",
-                        "type": "DocType",
-                        "name": "Healthcare Provider"
-                    },
-                    {
-                        "label": "جدول مواعيدي",
-                        "type": "DocType",
-                        "name": "Provider Schedule"
+                        "type": "Link",
+                        "link_type": "DocType",
+                        "link_to": "Adherence Report",
+                        "is_query_report": 0
                     }
                 ]
             }
         }
     ]
-    
-    return json.dumps(content)
 
+
+# ============================================================================
+# DASHBOARD SETUP
+# ============================================================================
 
 def setup_doctor_dashboard():
-    """Create dashboard for doctors"""
-    
-    print("\n📊 Setting up Doctor Dashboard...")
-    
+    """Create dashboard for Healthcare Providers"""
+
+    print("\n📊 Setting up Healthcare Provider Dashboard...")
+
     dashboard_name = "Healthcare Provider Dashboard"
-    
-    # Delete existing dashboard
-    if frappe.db.exists("Dashboard", dashboard_name):
-        frappe.delete_doc("Dashboard", dashboard_name, force=1)
-    
-    dashboard = frappe.get_doc({
-        "doctype": "Dashboard",
-        "dashboard_name": dashboard_name,
-        "module": "My Medicinal",
-        "is_default": 0,
-        "is_standard": 0
-    })
-    
-    # Add charts
-    charts = [
-        {
-            "chart_name": "الاستشارات الشهرية",
-            "chart": get_or_create_chart("consultations_monthly"),
-            "width": "Half"
-        },
-        {
-            "chart_name": "حالة الاستشارات",
-            "chart": get_or_create_chart("consultations_status"),
-            "width": "Half"
-        },
-        {
-            "chart_name": "الوصفات الأسبوعية",
-            "chart": get_or_create_chart("prescriptions_weekly"),
-            "width": "Half"
-        }
-    ]
-    
-    for chart_data in charts:
-        dashboard.append("charts", chart_data)
-    
-    dashboard.insert(ignore_permissions=True)
-    print(f"✅ Dashboard '{dashboard_name}' created")
-    
-    frappe.db.commit()
+
+    try:
+        # Delete existing dashboard
+        if frappe.db.exists("Dashboard", dashboard_name):
+            frappe.delete_doc("Dashboard", dashboard_name, force=1, ignore_permissions=True)
+            print("ℹ️  Deleted existing dashboard")
+
+        # Create new dashboard
+        dashboard = frappe.get_doc({
+            "doctype": "Dashboard",
+            "dashboard_name": dashboard_name,
+            "module": "my_medicinal",
+            "is_default": 0,
+            "is_standard": 0
+        })
+
+        # Add charts
+        charts = [
+            {
+                "chart_name": "الاستشارات الشهرية",
+                "chart": create_chart("consultations_monthly"),
+                "width": "Half"
+            },
+            {
+                "chart_name": "حالة الاستشارات",
+                "chart": create_chart("consultations_status"),
+                "width": "Half"
+            },
+            {
+                "chart_name": "الوصفات الأسبوعية",
+                "chart": create_chart("prescriptions_weekly"),
+                "width": "Half"
+            }
+        ]
+
+        for chart_data in charts:
+            if chart_data["chart"]:  # Only add if chart was created
+                dashboard.append("charts", chart_data)
+
+        dashboard.insert(ignore_permissions=True)
+        print(f"✅ Dashboard '{dashboard_name}' created with {len(charts)} charts")
+
+        frappe.db.commit()
+
+    except Exception as e:
+        print(f"❌ Error creating dashboard: {str(e)}")
+        frappe.log_error(frappe.get_traceback(), "Dashboard Creation Error")
 
 
-def get_or_create_chart(chart_type):
-    """Create or get existing chart"""
-    
+def create_chart(chart_type):
+    """Create or get existing dashboard chart"""
+
     charts_config = {
         "consultations_monthly": {
             "name": "استشارات شهرية - الطبيب",
-            "chart_name": "استشارات شهرية",
+            "chart_name": "الاستشارات الشهرية",
             "chart_type": "Line",
             "document_type": "Medical Consultation",
             "based_on": "consultation_date",
@@ -402,341 +498,43 @@ def get_or_create_chart(chart_type):
             "filters_json": '[["Medical Prescription", "provider", "=", "%(user)s"]]'
         }
     }
-    
+
     config = charts_config.get(chart_type)
     if not config:
         return None
-    
+
     chart_name = config["name"]
-    
+
+    # Check if chart already exists
     if frappe.db.exists("Dashboard Chart", chart_name):
+        print(f"ℹ️  Chart '{config['chart_name']}' already exists")
         return chart_name
-    
-    chart = frappe.get_doc({
-        "doctype": "Dashboard Chart",
-        "chart_name": config["chart_name"],
-        "name": chart_name,
-        "chart_type": config["chart_type"],
-        "document_type": config["document_type"],
-        "based_on": config["based_on"],
-        "filters_json": config.get("filters_json", "[]"),
-        "time_interval": config.get("time_interval"),
-        "timespan": config.get("timespan"),
-        "is_public": 0
-    })
-    
-    chart.insert(ignore_permissions=True)
-    return chart_name
 
-
-# Main execution
-if __name__ == "__main__":
-    setup_doctor_role()
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Healthcare Provider Setup Script - Fixed Version
-???? ?????? ??? ???? ??????? ?????? ?????? workspace ???? ?????
-"""
-
-import frappe
-from frappe import _
-import json
-
-def setup_healthcare_provider():
-    """Setup Healthcare Provider role and workspace"""
-    
     try:
-        print("?? Starting Healthcare Provider setup...")
-        
-        # 1. Create role if not exists
-        setup_healthcare_provider_role()
-        
-        # 2. Setup permissions
-        setup_doctype_permissions()
-        
-        # 3. Create workspace (FIXED VERSION)
-        create_doctor_workspace_fixed()
-        
-        frappe.db.commit()
-        print("? Healthcare Provider setup complete!")
-        
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "Healthcare Provider Setup Error")
-        print(f"? Error: {str(e)}")
-        raise
-
-
-def setup_healthcare_provider_role():
-    """Create Healthcare Provider role"""
-    
-    print("\n????? Setting up Healthcare Provider role...")
-    
-    if not frappe.db.exists("Role", "Healthcare Provider"):
-        role = frappe.get_doc({
-            "doctype": "Role",
-            "role_name": "Healthcare Provider",
-            "desk_access": 1,
-            "is_custom": 1
+        chart = frappe.get_doc({
+            "doctype": "Dashboard Chart",
+            "name": chart_name,
+            "chart_name": config["chart_name"],
+            "chart_type": config["chart_type"],
+            "document_type": config["document_type"],
+            "based_on": config["based_on"],
+            "filters_json": config.get("filters_json", "[]"),
+            "time_interval": config.get("time_interval"),
+            "timespan": config.get("timespan"),
+            "is_public": 0
         })
-        role.insert(ignore_permissions=True)
-        print("? Healthcare Provider role created")
-    else:
-        print("??  Healthcare Provider role already exists")
 
+        chart.insert(ignore_permissions=True)
+        print(f"✅ Chart '{config['chart_name']}' created")
+        return chart_name
 
-def setup_doctype_permissions():
-    """Setup permissions for Healthcare Provider role"""
-    
-    print("\n?? Setting up DocType permissions...")
-    
-    permissions_map = {
-        # Full access
-        "Medical Consultation": {
-            "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1
-        },
-        "Medical Prescription": {
-            "read": 1, "write": 1, "create": 1, "submit": 1
-        },
-        
-        # Read only
-        "Patient": {
-            "read": 1, "write": 0, "create": 0
-        },
-        "Medication Schedule": {
-            "read": 1, "write": 0, "create": 0
-        },
-        "Medication Log": {
-            "read": 1, "write": 0, "create": 0
-        },
-        
-        # Full access to own profile
-        "Healthcare Provider": {
-            "read": 1, "write": 1, "create": 0
-        }
-    }
-    
-    for doctype, perms in permissions_map.items():
-        if not frappe.db.exists("DocType", doctype):
-            print(f"??  DocType '{doctype}' not found, skipping")
-            continue
-            
-        try:
-            # Check if permission already exists
-            existing = frappe.db.get_value(
-                "Custom DocPerm",
-                {
-                    "parent": doctype,
-                    "role": "Healthcare Provider"
-                },
-                "name"
-            )
-            
-            if existing:
-                print(f"??  Permission for {doctype} already exists")
-                continue
-            
-            # Create new permission
-            perm = frappe.get_doc({
-                "doctype": "Custom DocPerm",
-                "parent": doctype,
-                "parenttype": "DocType",
-                "parentfield": "permissions",
-                "role": "Healthcare Provider",
-                "permlevel": 0,
-                **perms
-            })
-            
-            perm.insert(ignore_permissions=True)
-            print(f"? Permissions set for {doctype}")
-            
-        except Exception as e:
-            print(f"??  Error setting permission for {doctype}: {str(e)}")
-            continue
-    
-    frappe.db.commit()
-
-
-def create_doctor_workspace_fixed():
-    """
-    ????? Workspace ?????? ??????? ?????? - ?????? ????????
-    ?????? ????? ????? ?? ???? ??? tabDocType.parent
-    """
-    
-    print("\n?? Creating Healthcare Provider Workspace (Fixed)...")
-    
-    workspace_name = "Healthcare Provider Portal"
-    
-    try:
-        # ??? workspace ?????? ?? ????
-        if frappe.db.exists("Workspace", workspace_name):
-            frappe.delete_doc("Workspace", workspace_name, force=1, ignore_permissions=True)
-            print("???  Deleted old workspace")
-        
-        # ????? workspace ???? ?????? ?????
-        workspace = frappe.get_doc({
-            "doctype": "Workspace",
-            "title": workspace_name,
-            "module": "my_medicinal",
-            "icon": "medical",
-            "public": 1,  # ? ????? ?? 0 ??? 1
-            "is_hidden": 0,
-            "extends": "",  # ? ????? ??? extends ??????
-            "extends_another_page": 0,  # ? ?????
-            "content": json.dumps(get_workspace_content_json()),  # ? ??????? json.dumps
-        })
-        
-        workspace.insert(ignore_permissions=True)
-        print(f"? Workspace created: {workspace.name}")
-        
-        # ? ??????? ??????? ???? Workspace ?? Role
-        # ??????? Has Role ????? ?? append
-        add_workspace_to_role(workspace_name, "Healthcare Provider")
-        
-        frappe.db.commit()
-        print("? Workspace assigned to Healthcare Provider role")
-        
     except Exception as e:
-        print(f"? Error creating workspace: {str(e)}")
-        frappe.log_error(frappe.get_traceback(), "Workspace Creation Error")
-        raise
-
-
-def add_workspace_to_role(workspace_name, role_name):
-    """
-    ??? Workspace ?? Role ?????? ????
-    """
-    try:
-        # ?????? ?? ???? ????? ?????
-        exists = frappe.db.exists("Has Role", {
-            "parent": workspace_name,
-            "parenttype": "Workspace",
-            "role": role_name
-        })
-        
-        if not exists:
-            # ????? ??? ???? ?? Has Role
-            has_role = frappe.get_doc({
-                "doctype": "Has Role",
-                "parent": workspace_name,
-                "parenttype": "Workspace",
-                "parentfield": "roles",
-                "role": role_name
-            })
-            has_role.insert(ignore_permissions=True)
-            print(f"? Role '{role_name}' added to workspace")
-        else:
-            print(f"??  Role already assigned to workspace")
-            
-    except Exception as e:
-        print(f"??  Could not assign role: {str(e)}")
-
-
-def get_workspace_content_json():
-    """
-    ????? Workspace ????? JSON
-    """
-    return [
-        {
-            "type": "Header",
-            "data": {
-                "text": "???? ???? ???? ??????? ??????",
-                "col": 12
-            }
-        },
-        {
-            "type": "Card Break"
-        },
-        {
-            "type": "Shortcut",
-            "data": {
-                "shortcut_name": "??????? ?????",
-                "label": "??????? ?????",
-                "link_to": "Medical Consultation",
-                "type": "DocType",
-                "icon": "medical",
-                "color": "Green"
-            }
-        },
-        {
-            "type": "Shortcut",
-            "data": {
-                "shortcut_name": "???? ?????",
-                "label": "???? ???? ?????",
-                "link_to": "Medical Prescription",
-                "type": "DocType",
-                "icon": "file",
-                "color": "Blue"
-            }
-        },
-        {
-            "type": "Shortcut",
-            "data": {
-                "shortcut_name": "??????",
-                "label": "????? ??????",
-                "link_to": "Patient",
-                "type": "DocType",
-                "icon": "users",
-                "color": "Orange"
-            }
-        },
-        {
-            "type": "Card Break"
-        },
-        {
-            "type": "Card",
-            "data": {
-                "card_name": "??????????",
-                "col": 6,
-                "links": [
-                    {
-                        "label": "???? ??????????",
-                        "type": "Link",
-                        "link_type": "DocType",
-                        "link_to": "Medical Consultation",
-                        "is_query_report": 0
-                    },
-                    {
-                        "label": "???????? ??? ????????",
-                        "type": "Link",
-                        "link_type": "DocType",
-                        "link_to": "Medical Consultation",
-                        "is_query_report": 0,
-                        "only_for": "Healthcare Provider"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Card",
-            "data": {
-                "card_name": "??????? ???????",
-                "col": 6,
-                "links": [
-                    {
-                        "label": "??????? ??????",
-                        "type": "Link",
-                        "link_type": "DocType",
-                        "link_to": "Medical Prescription",
-                        "is_query_report": 0
-                    },
-                    {
-                        "label": "??????",
-                        "type": "Link",
-                        "link_type": "DocType",
-                        "link_to": "Patient",
-                        "is_query_report": 0
-                    }
-                ]
-            }
-        }
-    ]
+        print(f"⚠️  Could not create chart '{config['chart_name']}': {str(e)}")
+        return None
 
 
 # ============================================================================
-# ????? ????????
+# MAIN EXECUTION
 # ============================================================================
 
 if __name__ == "__main__":
