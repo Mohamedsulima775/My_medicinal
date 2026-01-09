@@ -1,4 +1,5 @@
 from . import __version__ as app_version
+import os
 
 app_name = "my_medicinal"
 app_title = "Dawaii"
@@ -317,22 +318,21 @@ notification_config = "my_medicinal.my_medicinal.notifications.get_notification_
 # EMAIL CONFIGURATION - ? ??????? ??????
 # ============================================================================
 
-email_brand_logo = "/assets/my_medicinal/images/email-logo.png"
-email_brand_color = "#2D6A4F"
+email_brand_logo = os.getenv("EMAIL_BRAND_LOGO", "/assets/my_medicinal/images/email-logo.png")
+email_brand_color = os.getenv("EMAIL_BRAND_COLOR", "#2D6A4F")
 
-allow_cors = [
-    "https://yourdomain.com",
-    "http://localhost:3000",  # ???????
-    "http://127.0.0.1:8000"   # ???????
-]
+# CORS Configuration - Use environment variable for production
+# Format: comma-separated list (e.g., "https://app.com,https://www.app.com")
+_cors_origins = os.getenv("ALLOWED_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:8000")
+allow_cors = [origin.strip() for origin in _cors_origins.split(",") if origin.strip()]
 
 # ============================================================================
-# RATE LIMITING - ? ????? ???? ???????
+# RATE LIMITING - Use environment variables
 # ============================================================================
 
 rate_limit = {
-    "limit": 100,  
-    "window": 60 
+    "limit": int(os.getenv("RATE_LIMIT_MAX_REQUESTS", "100")),
+    "window": int(os.getenv("RATE_LIMIT_WINDOW", "60"))
 }
 
 # ============================================================================
@@ -385,22 +385,25 @@ user_data_fields = [
 ]
 
 
-# FCM Configuration (Push Notifications)
-fcm_enabled = True
-# fcm_server_key = "your_fcm_server_key_here"  # ??? ??????? ?? Firebase
+# FCM Configuration (Push Notifications) - Use environment variables
+fcm_enabled = bool(int(os.getenv("FCM_ENABLED", "0")))
+fcm_server_key = os.getenv("FCM_SERVER_KEY")
+fcm_credentials_path = os.getenv("FCM_CREDENTIALS_PATH", "./firebase_credentials.json")
 
-# SMS Configuration
-sms_enabled = True
-sms_provider = "twilio"  # ?? "unifonic"
-# sms_settings = {
-#     "account_sid": "your_account_sid",
-#     "auth_token": "your_auth_token",
-#     "from_number": "+1234567890"
-# }
+# SMS Configuration - Use environment variables
+sms_enabled = bool(int(os.getenv("SMS_ENABLED", "0")))
+sms_provider = os.getenv("SMS_PROVIDER", "twilio")  # "twilio" or "unifonic"
 
-# Payment Gateway
-payment_gateway_enabled = True
-# payment_gateway_provider = "stripe"  # ?? "payfort" ?? "paytabs"
+# Twilio settings (if using Twilio)
+sms_settings = {
+    "account_sid": os.getenv("TWILIO_ACCOUNT_SID"),
+    "auth_token": os.getenv("TWILIO_AUTH_TOKEN"),
+    "from_number": os.getenv("TWILIO_FROM_NUMBER")
+}
+
+# Payment Gateway - Use environment variables
+payment_gateway_enabled = bool(int(os.getenv("PAYMENT_GATEWAY_ENABLED", "0")))
+payment_gateway_provider = os.getenv("PAYMENT_GATEWAY_PROVIDER", "stripe")  # "stripe", "payfort", or "paytabs"
 
 # ============================================================================
 # CONSOLE LOG - ? ??? Console
