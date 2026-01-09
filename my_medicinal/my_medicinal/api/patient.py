@@ -4,14 +4,16 @@
 
 import frappe
 from frappe import _
-from frappe.utils import cint, today
+from frappe.utils import cint, today, add_days, now_datetime
 import json
+from my_medicinal.my_medicinal.rate_limiter import rate_limit, get_mobile_key
 
 # ============================================
 # PATIENT REGISTRATION & AUTHENTICATION
 # ============================================
 
 @frappe.whitelist(allow_guest=True)
+@rate_limit(limit=5, window=300, key_func=get_mobile_key)  # 5 attempts per 5 minutes
 def register(patient_name, mobile, password, email=None, date_of_birth=None, gender=None):
     """
     Register a new patient
@@ -101,6 +103,7 @@ def register(patient_name, mobile, password, email=None, date_of_birth=None, gen
 
 
 @frappe.whitelist(allow_guest=True)
+@rate_limit(limit=10, window=300, key_func=get_mobile_key)  # 10 attempts per 5 minutes
 def login(mobile, password):
     """
     Login patient
@@ -249,30 +252,57 @@ def update_profile(patient_id, profile_data):
 
 def generate_api_keys(user):
     """
-    Generate or get existing API keys for user
-    
+    Generate or get existing valid API keys for user
+    Uses API Key doctype with 90-day expiration
+
     Returns:
         (api_key, api_secret) tuple
     """
     try:
-        # Check if user already has API key
-        api_key = frappe.db.get_value("User", user, "api_key")
-        api_secret = frappe.db.get_value("User", user, "api_secret")
-        
-        if api_key and api_secret:
-            return (api_key, api_secret)
-        
-        # Generate new keys
-        api_key = frappe.generate_hash(length=15)
-        api_secret = frappe.generate_hash(length=15)
-        
-        # Update user
-        frappe.db.set_value("User", user, "api_key", api_key)
-        frappe.db.set_value("User", user, "api_secret", api_secret)
+        # Check if user already has a valid (non-expired, active) API key
+        existing_key = frappe.db.get_value(
+            "API Key",
+            {
+                "user": user,
+                "is_active": 1,
+                "expires_at": [">", now_datetime()]
+            },
+            ["api_key", "api_secret"],
+            as_dict=True
+        )
+
+        if existing_key and existing_key.api_key:
+            return (existing_key.api_key, existing_key.api_secret)
+
+        # Deactivate old keys for this user
+        frappe.db.sql("""
+            UPDATE `tabAPI Key`
+            SET is_active = 0
+            WHERE user = %s
+        """, (user,))
+
+        # Generate new keys with secure length (32 characters)
+        api_key = frappe.generate_hash(length=32)
+        api_secret = frappe.generate_hash(length=32)
+
+        # Set expiration date to 90 days from now
+        expires_at = add_days(now_datetime(), 90)
+
+        # Create new API Key document
+        api_key_doc = frappe.get_doc({
+            "doctype": "API Key",
+            "user": user,
+            "api_key": api_key,
+            "api_secret": api_secret,
+            "is_active": 1,
+            "expires_at": expires_at,
+            "last_used": now_datetime()
+        })
+        api_key_doc.insert(ignore_permissions=True)
         frappe.db.commit()
-        
+
         return (api_key, api_secret)
-        
+
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "Generate API Keys Error")
         # Return simple token as fallback
@@ -280,6 +310,82 @@ def generate_api_keys(user):
         import secrets
         token = hashlib.sha256(f"{user}-{secrets.token_hex(16)}".encode()).hexdigest()
         return (token, token)
+
+
+def validate_api_key(api_key):
+    """
+    Validate API key and check expiration
+    Updates last_used timestamp if valid
+
+    Args:
+        api_key: API key to validate
+
+    Returns:
+        User email if valid, None otherwise
+    """
+    try:
+        api_key_doc = frappe.db.get_value(
+            "API Key",
+            {
+                "api_key": api_key,
+                "is_active": 1
+            },
+            ["user", "expires_at", "name"],
+            as_dict=True
+        )
+
+        if not api_key_doc:
+            return None
+
+        # Check if expired
+        if api_key_doc.expires_at and api_key_doc.expires_at < now_datetime():
+            # Deactivate expired key
+            frappe.db.set_value("API Key", api_key_doc.name, "is_active", 0)
+            frappe.db.commit()
+            return None
+
+        # Update last_used timestamp
+        frappe.db.set_value("API Key", api_key_doc.name, "last_used", now_datetime())
+        frappe.db.commit()
+
+        return api_key_doc.user
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Validate API Key Error")
+        return None
+
+
+@frappe.whitelist()
+def refresh_token(old_api_key):
+    """
+    Refresh an expired or about-to-expire token
+
+    Args:
+        old_api_key: Current API key
+
+    Returns:
+        New token if successful
+    """
+    try:
+        # Validate the old key and get user
+        user = validate_api_key(old_api_key)
+
+        if not user:
+            frappe.throw(_("Invalid or expired token"))
+
+        # Generate new API keys
+        api_key, api_secret = generate_api_keys(user)
+
+        return {
+            "success": True,
+            "message": "Token refreshed successfully",
+            "token": api_key,
+            "expires_in_days": 90
+        }
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Refresh Token Error")
+        frappe.throw(_("Failed to refresh token: {0}").format(str(e)))
 
 
 @frappe.whitelist()
