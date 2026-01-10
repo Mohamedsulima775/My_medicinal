@@ -26,7 +26,19 @@ cp .env.provider.example .env.provider
 # 2. Edit configuration (optional)
 nano .env.provider
 
-# 3. Initialize environment
+# 3. Initialize environment (using console - recommended)
+bench --site my_medicinal.local console
+```
+
+Then in the console:
+```python
+from my_medicinal.my_medicinal.provider_environment import initialize_provider_environment
+result = initialize_provider_environment()
+print(result)
+```
+
+**Alternative:** Direct execute (may have issues in some Frappe versions):
+```bash
 bench --site my_medicinal.local execute \
   my_medicinal.my_medicinal.provider_environment.initialize_provider_environment
 ```

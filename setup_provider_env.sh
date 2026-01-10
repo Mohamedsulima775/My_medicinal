@@ -89,7 +89,7 @@ echo -e "${BLUE}[5/5]${NC} Initializing Healthcare Provider environment..."
 echo -e "${YELLOW}[INFO]${NC} This will:"
 echo "  - Create Healthcare Provider role"
 echo "  - Setup permissions"
-echo "  - Create workspace"
+echo "  - Create workspace (if supported)"
 echo "  - Configure dashboard"
 echo "  - Setup notifications"
 echo ""
@@ -100,7 +100,15 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo -e "${BLUE}[RUNNING]${NC} Initializing environment..."
 
-    if bench --site ${SITE_NAME} execute my_medicinal.my_medicinal.provider_environment.initialize_provider_environment; then
+    # Use Python import method for better reliability
+    if bench --site ${SITE_NAME} console <<EOF
+from my_medicinal.my_medicinal.provider_environment import initialize_provider_environment
+result = initialize_provider_environment()
+print("=" * 80)
+print("Setup completed successfully!")
+print("=" * 80)
+EOF
+    then
         echo ""
         echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
         echo -e "${GREEN}║                                                                ║${NC}"

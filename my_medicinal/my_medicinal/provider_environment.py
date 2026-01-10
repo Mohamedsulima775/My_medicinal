@@ -379,15 +379,11 @@ def create_provider_workspace():
     # Create workspace
     workspace = frappe.get_doc({
         "doctype": "Workspace",
-        "name": workspace_name,
         "title": workspace_name,
         "module": "My Medicinal",
         "icon": "doctor",
         "is_standard": 0,
         "public": 1,
-        "restrict_to_domain": "",
-        "for_user": "",
-        "parent_page": "",
         "content": json.dumps([
             {
                 "type": "header",
@@ -481,8 +477,12 @@ def create_provider_workspace():
         ])
     })
 
-    workspace.insert(ignore_permissions=True)
-    print(f"  → Created workspace: {workspace_name}")
+    try:
+        workspace.insert(ignore_permissions=True)
+        print(f"  → Created workspace: {workspace_name}")
+    except Exception as e:
+        print(f"  ⚠️  Could not create workspace: {str(e)}")
+        print(f"  → You may need to create the workspace manually in UI")
 
 
 # =============================================================================
