@@ -1,0 +1,18 @@
+{
+  "_comment": "مثال على ملف common_site_config.json للاتصال من أجهزة أخرى",
+  "_note": "انسخ هذا الملف إلى sites/common_site_config.json وحدث القيم حسب بيئتك",
+
+  "allow_cors": "*",
+  "host_name": "http://192.168.1.100:8000",
+  "webserver_port": 8000,
+  "socketio_port": 9000,
+  "serve_default_site": true,
+  "allow_tests": true,
+
+  "_instructions": {
+    "1": "استبدل 192.168.1.100 بعنوان IP الفعلي لخادمك",
+    "2": "قم بتشغيل: bench start --host 0.0.0.0",
+    "3": "تأكد من فتح المنافذ في Firewall",
+    "4": "للإنتاج، استخدم HTTPS واستبدل allow_cors بقائمة النطاقات المسموح بها"
+  }
+}
