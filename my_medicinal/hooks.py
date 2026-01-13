@@ -200,109 +200,98 @@ website_context = {
 
 
 scheduler_events = {
-
-"cron": {
+    # Every 5 minutes - Medication Reminders
+    "cron": {
         "*/5 * * * *": [
-            "my_medicinal.my_medicinal.tasks.send_medication_reminders"  # ? ????
+            "my_medicinal.my_medicinal.tasks.send_medication_reminders"
         ]
     },
-    
-    # Hourly
+
+    # Hourly - Check medications and send reminders
     "hourly": [
-        "my_medicinal.my_medicinal.tasks.hourly",  # ? ????
-        "my_medicinal.my_medicinal.tasks.check_low_stock"  # ? ????
+        "my_medicinal.my_medicinal.tasks.hourly"
     ],
-    
-    # Daily
+
+    # Daily - Run all daily tasks (stock check, adherence reports)
     "daily": [
-        "my_medicinal.my_medicinal.tasks.daily",  # ? ????
-        "my_medicinal.my_medicinal.tasks.calculate_adherence_rates",  # ? ????
-        "my_medicinal.my_medicinal.tasks.send_daily_summary"  # ? ????
+        "my_medicinal.my_medicinal.tasks.all"
     ],
-    
-    # Weekly
+
+    # Weekly - Cleanup old notifications
     "weekly": [
-        "my_medicinal.my_medicinal.tasks.cleanup_old_notifications",  # ? ????
-        "my_medicinal.my_medicinal.tasks.generate_weekly_reports"  # ? ????
-    ],
-    
-    # Monthly
-    "monthly": [
-        "my_medicinal.my_medicinal.tasks.generate_monthly_analytics"  # ? ????
+        "my_medicinal.my_medicinal.tasks.cleanup_old_notifications"
     ]
 }
 
 
 doc_events = {
-    #"patient": {
-     #   "validate": "my_medicinal.my_medicinal.api.patient.validate_patient",  # ? ????
-      #  "after_insert": "my_medicinal.my_medicinal.api.patient#.send_welcome_notification",  # ? ????
- #       "on_update": "my_medicinal.my_medicinal.api.patient.on_update"  # ? ????
-  #  },
-    
+    # Medication Schedule - جميع الدوال موجودة ✓
     "Medication Schedule": {
-        "validate": "my_medicinal.my_medicinal.api.medication.validate",  # ? ????
-        "after_insert": "my_medicinal.my_medicinal.api.medication.after_insert",  # ? ????
-        "on_update": "my_medicinal.my_medicinal.api.medication.on_update",  # ? ????
-        "before_save": "my_medicinal.my_medicinal.api.medication.calculate_depletion"  # ? ????
+        "validate": "my_medicinal.my_medicinal.api.medication.validate",
+        "after_insert": "my_medicinal.my_medicinal.api.medication.after_insert",
+        "on_update": "my_medicinal.my_medicinal.api.medication.on_update",
+        "before_save": "my_medicinal.my_medicinal.api.medication.calculate_depletion"
     },
-    
+
+    # Medication Log - الدالة موجودة ✓
     "Medication Log": {
-        "after_insert": "my_medicinal.my_medicinal.api.medication.update_adherence"  # ? ????
-    },
-    
-    "Medical Prescription": {
-        "on_submit": "my_medicinal.my_medicinal.api.prescription.notify_patient",  # ? ????
-        "validate": "my_medicinal.my_medicinal.api.prescription.validate_prescription"  # ? ????
-    },
-    
-    "Patient Order": {
-        "validate": "my_medicinal.my_medicinal.api.order.validate_order",  # ? ????
-        "on_update": "my_medicinal.my_medicinal.api.order.update_inventory",  # ? ????
-        "on_submit": "my_medicinal.my_medicinal.api.order.process_payment"  # ? ????
-    },
-    
-    "Medical Consultation": {
-        "after_insert": "my_medicinal.my_medicinal.api.consultation.notify_doctor",  # ? ????
-        "on_update": "my_medicinal.my_medicinal.api.consultation.notify_patient"  # ? ????
+        "after_insert": "my_medicinal.my_medicinal.api.medication.update_adherence"
     }
-    
+
+    # Medical Prescription - معلق (الدوال غير موجودة)
+    # "Medical Prescription": {
+    #     "on_submit": "my_medicinal.my_medicinal.api.prescription.notify_patient",
+    #     "validate": "my_medicinal.my_medicinal.api.prescription.validate_prescription"
+    # },
+
+    # Patient Order - معلق (الدوال غير موجودة)
+    # "Patient Order": {
+    #     "validate": "my_medicinal.my_medicinal.api.order.validate_order",
+    #     "on_update": "my_medicinal.my_medicinal.api.order.update_inventory",
+    #     "on_submit": "my_medicinal.my_medicinal.api.order.process_payment"
+    # },
+
+    # Medical Consultation - معلق (الدوال غير موجودة)
+    # "Medical Consultation": {
+    #     "after_insert": "my_medicinal.my_medicinal.api.consultation.notify_doctor",
+    #     "on_update": "my_medicinal.my_medicinal.api.consultation.notify_patient"
+    # }
 }
 
 
 
 
 override_whitelisted_methods = {
-   # Patient APIs
-    "my_medicinal.my_medicinal.api.patient.register": "my_medicinal.my_medicinal.api.patient.register",  # ? ????
-    "my_medicinal.my_medicinal.api.patient.get_profile": "my_medicinal.my_medicinal.api.patient.get_patient_profile",  # ? ????
-    "my_medicinal.my_medicinal.api.patient.update_profile": "my_medicinal.my_medicinal.api.patient.update_patient_profile",  # ? ????
-    
+    # Patient APIs - تم تصحيح أسماء الدوال
+    "my_medicinal.my_medicinal.api.patient.register": "my_medicinal.my_medicinal.api.patient.register",
+    "my_medicinal.my_medicinal.api.patient.get_profile": "my_medicinal.my_medicinal.api.patient.get_profile",
+    "my_medicinal.my_medicinal.api.patient.update_profile": "my_medicinal.my_medicinal.api.patient.update_profile",
+
     # Medication APIs
-    "my_medicinal.my_medicinal.api.medication.add": "my_medicinal.my_medicinal.api.medication.add_medication",  # ? ????
-    "my_medicinal.my_medicinal.api.medication.get_list": "my_medicinal.my_medicinal.api.medication.get_patient_medications",  # ? ????
-    "my_medicinal.my_medicinal.api.medication.log_taken": "my_medicinal.my_medicinal.api.medication.log_medication_taken",  # ? ????
-    
-    # Consultation APIs
-    "my_medicinal.my_medicinal.api.consultation.create": "my_medicinal.my_medicinal.api.consultation.create_consultation",  # ? ????
-    "my_medicinal.my_medicinal.api.consultation.get_list": "my_medicinal.my_medicinal.api.consultation.get_consultations",  # ? ????
-    
-    # Order APIs
-    "my_medicinal.my_medicinal.api.order.create": "my_medicinal.my_medicinal.api.order.create_order",  # ? ????
-    "my_medicinal.my_medicinal.api.order.get_list": "my_medicinal.my_medicinal.api.order.get_orders",  # ? ????
-    
-    # Shop APIs
-    "my_medicinal.my_medicinal.api.product.get_products": "my_medicinal.my_medicinal.api.product.get_medication_products",  # ? ????
-    "my_medicinal.my_medicinal.api.product.search": "my_medicinal.my_medicinal.api.product.search_products",  # ? ????
-    
-     # Provider APIs
-    "my_medicinal.my_medicinal.api.provider.get_my_consultations": "my_medicinal.my_medicinal.api.provider.get_my_consultations",  # ? ????
-    "my_medicinal.my_medicinal.api.provider.get_consultation_details": "my_medicinal.my_medicinal.api.provider.get_consultation_details",  # ? ????
-    "my_medicinal.my_medicinal.api.provider.update_consultation": "my_medicinal.my_medicinal.api.provider.update_consultation",  # ? ????
-    "my_medicinal.my_medicinal.api.provider.create_prescription": "my_medicinal.my_medicinal.api.provider.create_prescription",  # ? ????
-    "my_medicinal.my_medicinal.api.provider.get_my_prescriptions": "my_medicinal.my_medicinal.api.provider.get_my_prescriptions",  # ? ????
-    "my_medicinal.my_medicinal.api.provider.get_my_patients": "my_medicinal.my_medicinal.api.provider.get_my_patients",  # ? ????
-    "my_medicinal.my_medicinal.api.provider.get_patient_history": "my_medicinal.my_medicinal.api.provider.get_patient_history",  # ? ????
+    "my_medicinal.my_medicinal.api.medication.add": "my_medicinal.my_medicinal.api.medication.add_medication",
+    "my_medicinal.my_medicinal.api.medication.get_list": "my_medicinal.my_medicinal.api.medication.get_patient_medications",
+    "my_medicinal.my_medicinal.api.medication.log_taken": "my_medicinal.my_medicinal.api.medication.log_medication_taken",
+
+    # Consultation APIs - تم تصحيح اسم الدالة
+    "my_medicinal.my_medicinal.api.consultation.create": "my_medicinal.my_medicinal.api.consultation.create_consultation",
+    "my_medicinal.my_medicinal.api.consultation.get_list": "my_medicinal.my_medicinal.api.consultation.get_my_consultations",
+
+    # Order APIs - تم تصحيح اسم الدالة
+    "my_medicinal.my_medicinal.api.order.create": "my_medicinal.my_medicinal.api.order.create_order",
+    "my_medicinal.my_medicinal.api.order.get_list": "my_medicinal.my_medicinal.api.order.get_my_orders",
+
+    # Shop APIs - تم تصحيح أسماء الدوال
+    "my_medicinal.my_medicinal.api.product.get_products": "my_medicinal.my_medicinal.api.product.get_products",
+    "my_medicinal.my_medicinal.api.product.search": "my_medicinal.my_medicinal.api.product.search_products",
+
+    # Provider APIs
+    "my_medicinal.my_medicinal.api.provider.get_my_consultations": "my_medicinal.my_medicinal.api.provider.get_my_consultations",
+    "my_medicinal.my_medicinal.api.provider.get_consultation_details": "my_medicinal.my_medicinal.api.provider.get_consultation_details",
+    "my_medicinal.my_medicinal.api.provider.update_consultation": "my_medicinal.my_medicinal.api.provider.update_consultation",
+    "my_medicinal.my_medicinal.api.provider.create_prescription": "my_medicinal.my_medicinal.api.provider.create_prescription",
+    "my_medicinal.my_medicinal.api.provider.get_my_prescriptions": "my_medicinal.my_medicinal.api.provider.get_my_prescriptions",
+    "my_medicinal.my_medicinal.api.provider.get_my_patients": "my_medicinal.my_medicinal.api.provider.get_my_patients",
+    "my_medicinal.my_medicinal.api.provider.get_patient_history": "my_medicinal.my_medicinal.api.provider.get_patient_history",
     "my_medicinal.my_medicinal.api.provider.get_doctor_statistics": "my_medicinal.my_medicinal.api.provider.get_doctor_statistics",
     "my_medicinal.my_medicinal.api.provider.update_my_profile": "my_medicinal.my_medicinal.api.provider.update_my_profile",
 
