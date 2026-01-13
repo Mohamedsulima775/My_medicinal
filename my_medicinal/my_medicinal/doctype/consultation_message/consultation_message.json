@@ -9,10 +9,23 @@
  "engine": "InnoDB",
  "field_order": [
   "sender_type",
+  "sender_id",
+  "sender_name",
+  "message_type",
   "message",
   "timestamp",
+  "column_break_attachments",
   "attachment",
-  "is_read"
+  "attachment_name",
+  "attachment_size",
+  "section_break_status",
+  "is_read",
+  "is_delivered",
+  "read_at",
+  "delivered_at",
+  "section_break_reply",
+  "reply_to_idx",
+  "reply_preview"
  ],
  "fields": [
   {
@@ -24,11 +37,30 @@
    "reqd": 1
   },
   {
+   "fieldname": "sender_id",
+   "fieldtype": "Data",
+   "label": "Sender ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sender_name",
+   "fieldtype": "Data",
+   "label": "Sender Name",
+   "read_only": 1
+  },
+  {
+   "default": "text",
+   "fieldname": "message_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Message Type",
+   "options": "text\nimage\nfile\naudio\nvideo\nsystem"
+  },
+  {
    "fieldname": "message",
    "fieldtype": "Long Text",
    "in_list_view": 1,
-   "label": "Message",
-   "reqd": 1
+   "label": "Message"
   },
   {
    "default": "Now",
@@ -39,15 +71,71 @@
    "read_only": 1
   },
   {
+   "fieldname": "column_break_attachments",
+   "fieldtype": "Column Break"
+  },
+  {
    "fieldname": "attachment",
    "fieldtype": "Attach",
    "label": "Attachment"
+  },
+  {
+   "fieldname": "attachment_name",
+   "fieldtype": "Data",
+   "label": "Attachment Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attachment_size",
+   "fieldtype": "Int",
+   "label": "Attachment Size (bytes)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
   },
   {
    "default": "0",
    "fieldname": "is_read",
    "fieldtype": "Check",
    "label": "Is Read"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_delivered",
+   "fieldtype": "Check",
+   "label": "Is Delivered"
+  },
+  {
+   "fieldname": "read_at",
+   "fieldtype": "Datetime",
+   "label": "Read At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delivered_at",
+   "fieldtype": "Datetime",
+   "label": "Delivered At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_reply",
+   "fieldtype": "Section Break",
+   "label": "Reply"
+  },
+  {
+   "fieldname": "reply_to_idx",
+   "fieldtype": "Int",
+   "label": "Reply To Message Index",
+   "description": "Index of the message being replied to"
+  },
+  {
+   "fieldname": "reply_preview",
+   "fieldtype": "Small Text",
+   "label": "Reply Preview",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,

@@ -20,6 +20,14 @@
   "column_break_4qowu",
   "status",
   "priority",
+  "chat_status_section",
+  "unread_count_patient",
+  "unread_count_provider",
+  "last_message_at",
+  "column_break_chat",
+  "last_message_preview",
+  "patient_typing",
+  "provider_typing",
   "messages_section",
   "messages",
   "payment_section",
@@ -124,6 +132,58 @@
   {
    "fieldname": "column_break_4qowu",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "chat_status_section",
+   "fieldtype": "Section Break",
+   "label": "Chat Status",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "unread_count_patient",
+   "fieldtype": "Int",
+   "label": "Unread Messages (Patient)",
+   "default": "0",
+   "read_only": 1,
+   "description": "Number of unread messages for patient"
+  },
+  {
+   "fieldname": "unread_count_provider",
+   "fieldtype": "Int",
+   "label": "Unread Messages (Provider)",
+   "default": "0",
+   "read_only": 1,
+   "description": "Number of unread messages for provider"
+  },
+  {
+   "fieldname": "last_message_at",
+   "fieldtype": "Datetime",
+   "label": "Last Message At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_chat",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_message_preview",
+   "fieldtype": "Small Text",
+   "label": "Last Message Preview",
+   "read_only": 1
+  },
+  {
+   "fieldname": "patient_typing",
+   "fieldtype": "Check",
+   "label": "Patient Typing",
+   "default": "0",
+   "hidden": 1
+  },
+  {
+   "fieldname": "provider_typing",
+   "fieldtype": "Check",
+   "label": "Provider Typing",
+   "default": "0",
+   "hidden": 1
   },
   {
    "fieldname": "messages_section",
