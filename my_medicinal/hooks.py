@@ -294,6 +294,17 @@ override_whitelisted_methods = {
     "my_medicinal.my_medicinal.api.provider.get_patient_history": "my_medicinal.my_medicinal.api.provider.get_patient_history",
     "my_medicinal.my_medicinal.api.provider.get_doctor_statistics": "my_medicinal.my_medicinal.api.provider.get_doctor_statistics",
     "my_medicinal.my_medicinal.api.provider.update_my_profile": "my_medicinal.my_medicinal.api.provider.update_my_profile",
+
+    # Real-time Chat APIs
+    "my_medicinal.my_medicinal.api.realtime_chat.send_chat_message": "my_medicinal.my_medicinal.api.realtime_chat.send_chat_message",
+    "my_medicinal.my_medicinal.api.realtime_chat.get_chat_messages": "my_medicinal.my_medicinal.api.realtime_chat.get_chat_messages",
+    "my_medicinal.my_medicinal.api.realtime_chat.mark_messages_as_read": "my_medicinal.my_medicinal.api.realtime_chat.mark_messages_as_read",
+    "my_medicinal.my_medicinal.api.realtime_chat.set_typing_status": "my_medicinal.my_medicinal.api.realtime_chat.set_typing_status",
+    "my_medicinal.my_medicinal.api.realtime_chat.get_chat_status": "my_medicinal.my_medicinal.api.realtime_chat.get_chat_status",
+    "my_medicinal.my_medicinal.api.realtime_chat.get_unread_counts": "my_medicinal.my_medicinal.api.realtime_chat.get_unread_counts",
+    "my_medicinal.my_medicinal.api.realtime_chat.delete_message": "my_medicinal.my_medicinal.api.realtime_chat.delete_message",
+    "my_medicinal.my_medicinal.api.realtime_chat.get_active_chats": "my_medicinal.my_medicinal.api.realtime_chat.get_active_chats",
+
 }
 
 # ============================================================================

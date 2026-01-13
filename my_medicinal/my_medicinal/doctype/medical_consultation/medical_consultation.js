@@ -54,7 +54,7 @@ frappe.ui.form.on('Medical Consultation', {
         // Auto-fetch provider details and fee
         if (frm.doc.healthcare_provider) {
             frappe.call({
-                method: 'my_medicinal.doctype.healthcare_provider.healthcare_provider.get_provider_profile',
+                method: 'my_medicinal.my_medicinal.doctype.healthcare_provider.healthcare_provider.get_provider_profile',
                 args: {
                     provider_id: frm.doc.healthcare_provider
                 },
@@ -197,7 +197,7 @@ function show_unread_count(frm) {
 
 function check_provider_availability(frm) {
     frappe.call({
-        method: 'my_medicinal.doctype.healthcare_provider.healthcare_provider.check_availability',
+        method: 'my_medicinal.my_medicinal.doctype.healthcare_provider.healthcare_provider.check_availability',
         args: {
             provider_id: frm.doc.healthcare_provider,
             consultation_date: frm.doc.consultation_date
@@ -230,7 +230,7 @@ function validate_consultation_date(frm) {
 
 function update_status(frm, new_status) {
     frappe.call({
-        method: 'my_medicinal.doctype.medical_consultation.medical_consultation.update_consultation_status',
+        method: 'my_medicinal.my_medicinal.doctype.medical_consultation.medical_consultation.update_consultation_status',
         args: {
             consultation_id: frm.doc.name,
             new_status: new_status
@@ -260,7 +260,7 @@ function cancel_consultation_dialog(frm) {let d = new frappe.ui.Dialog({
         primary_action_label: __('Cancel Consultation'),
         primary_action(values) {
             frappe.call({
-                method: 'my_medicinal.doctype.medical_consultation.medical_consultation.cancel_consultation',
+                method: 'my_medicinal.my_medicinal.doctype.medical_consultation.medical_consultation.cancel_consultation',
                 args: {
                     consultation_id: frm.doc.name,
                     reason: values.reason
@@ -382,7 +382,7 @@ function refresh_chat(frm, dialog) {
 
 function send_message(frm, message) {
     frappe.call({
-        method: 'my_medicinal.doctype.medical_consultation.medical_consultation.send_message',
+        method: 'my_medicinal.my_medicinal.doctype.medical_consultation.medical_consultation.send_message',
         args: {
             consultation_id: frm.doc.name,
             sender_type: 'Patient',
@@ -402,7 +402,7 @@ function send_message(frm, message) {
 
 function mark_all_read(frm) {
     frappe.call({
-        method: 'my_medicinal.doctype.medical_consultation.medical_consultation.mark_messages_read',
+        method: 'my_medicinal.my_medicinal.doctype.medical_consultation.medical_consultation.mark_messages_read',
         args: {
             consultation_id: frm.doc.name,
             sender_type: 'Provider'

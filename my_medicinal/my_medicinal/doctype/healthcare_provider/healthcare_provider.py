@@ -222,6 +222,69 @@ class HealthcareProvider(Document):
 
 # API Methods
 
+@frappe.whitelist(allow_guest=True)
+def get_provider_profile(provider_id):
+    """Get provider profile for form auto-fill"""
+    try:
+        if not frappe.db.exists("Healthcare Provider", provider_id):
+            return None
+
+        provider = frappe.get_doc("Healthcare Provider", provider_id)
+
+        return {
+            "provider_name": provider.provider_name,
+            "consultation_fee": provider.consultation_fee or 0,
+            "specialty": provider.specialty,
+            "is_available": provider.is_available
+        }
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Get Provider Profile Error")
+        return None
+
+
+@frappe.whitelist(allow_guest=True)
+def check_availability(provider_id, consultation_date):
+    """Check if provider is available on a specific date"""
+    try:
+        if not frappe.db.exists("Healthcare Provider", provider_id):
+            return {"available": False, "message": "Provider not found"}
+
+        provider = frappe.get_doc("Healthcare Provider", provider_id)
+
+        if not provider.is_available:
+            return {"available": False, "message": "Provider is currently not available"}
+
+        # Check day of week from consultation_date
+        from datetime import datetime
+
+        if consultation_date:
+            dt = datetime.strptime(str(consultation_date)[:10], "%Y-%m-%d")
+            day_of_week = dt.strftime("%A")
+
+            # Check schedule
+            schedule = frappe.db.exists(
+                "Provider Schedule",
+                {
+                    "provider": provider_id,
+                    "day_of_week": day_of_week,
+                    "is_available": 1
+                }
+            )
+
+            if not schedule:
+                return {
+                    "available": False,
+                    "message": f"Provider is not available on {day_of_week}"
+                }
+
+        return {"available": True, "message": "Provider is available"}
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Check Availability Error")
+        return {"available": True, "message": "Could not verify availability"}
+
+
 @frappe.whitelist()
 def get_provider_details(provider_id):
     """Get detailed provider information"""
