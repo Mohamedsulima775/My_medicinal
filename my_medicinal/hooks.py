@@ -200,35 +200,26 @@ website_context = {
 
 
 scheduler_events = {
-
-"cron": {
+    # Every 5 minutes - Medication Reminders
+    "cron": {
         "*/5 * * * *": [
-            "my_medicinal.my_medicinal.tasks.send_medication_reminders"  # ? ????
+            "my_medicinal.my_medicinal.tasks.send_medication_reminders"
         ]
     },
-    
-    # Hourly
+
+    # Hourly - Check medications and send reminders
     "hourly": [
-        "my_medicinal.my_medicinal.tasks.hourly",  # ? ????
-        "my_medicinal.my_medicinal.tasks.check_low_stock"  # ? ????
+        "my_medicinal.my_medicinal.tasks.hourly"
     ],
-    
-    # Daily
+
+    # Daily - Run all daily tasks (stock check, adherence reports)
     "daily": [
-        "my_medicinal.my_medicinal.tasks.daily",  # ? ????
-        "my_medicinal.my_medicinal.tasks.calculate_adherence_rates",  # ? ????
-        "my_medicinal.my_medicinal.tasks.send_daily_summary"  # ? ????
+        "my_medicinal.my_medicinal.tasks.all"
     ],
-    
-    # Weekly
+
+    # Weekly - Cleanup old notifications
     "weekly": [
-        "my_medicinal.my_medicinal.tasks.cleanup_old_notifications",  # ? ????
-        "my_medicinal.my_medicinal.tasks.generate_weekly_reports"  # ? ????
-    ],
-    
-    # Monthly
-    "monthly": [
-        "my_medicinal.my_medicinal.tasks.generate_monthly_analytics"  # ? ????
+        "my_medicinal.my_medicinal.tasks.cleanup_old_notifications"
     ]
 }
 
