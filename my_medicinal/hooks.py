@@ -323,8 +323,27 @@ email_brand_color = os.getenv("EMAIL_BRAND_COLOR", "#2D6A4F")
 
 # CORS Configuration - Use environment variable for production
 # Format: comma-separated list (e.g., "https://app.com,https://www.app.com")
-_cors_origins = os.getenv("ALLOWED_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:8000")
+# Includes Flutter Web development ports (56858, 5000-5999, 8080, etc.)
+_default_cors = ",".join([
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    # Flutter Web development ports
+    "http://localhost:56858",
+    "http://127.0.0.1:56858",
+    "http://localhost:5000",
+    "http://127.0.0.1:5000",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    # Dynamic Flutter ports (50000-60000 range)
+    *[f"http://localhost:{port}" for port in range(50000, 60001, 1000)],
+    *[f"http://127.0.0.1:{port}" for port in range(50000, 60001, 1000)],
+])
+_cors_origins = os.getenv("ALLOWED_CORS_ORIGINS", _default_cors)
 allow_cors = [origin.strip() for origin in _cors_origins.split(",") if origin.strip()]
+
+# Allow all localhost origins for development (set to 0 in production)
+allow_localhost_cors = bool(int(os.getenv("ALLOW_LOCALHOST_CORS", "1")))
 
 # ============================================================================
 # RATE LIMITING - Use environment variables
